@@ -1,0 +1,42 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <ng-container *ngIf="!loading; else loadingTemplate">
+      <div class="client-container">
+        <h2>Gestión de Clientes</h2>
+
+        <div class="search-container">
+          <input
+            type="text"
+            placeholder="Buscar por nombre"
+            [(ngModel)]="searchTerm"
+            (input)="searchClients()"
+          />
+        </div>
+
+        <ul class="client-list">
+          <li *ngFor="let client of filteredClients" class="client-item">
+            <span>{{ client.name }} — {{ client.phone }} — {{ client.email }}</span>
+            <div class="actions">
+              <button (click)="composeEmail(client.email)">
+                <i class="fas fa-envelope"></i>
+              </button>
+              <button (click)="viewClient(client.id)">Ver</button>
+              <button (click)="deleteClient(client.id)">Eliminar</button>
+            </div>
+          </li>
+        </ul>
+
+        <button class="add-client-button" (click)="goToCreateClientPage()">Crear Cliente</button>
+
+        <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+    </ng-container>
+    <ng-template #loadingTemplate>
+      <div class="loader-wrapper">
+        <p>Cargando clientes...</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

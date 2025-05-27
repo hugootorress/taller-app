@@ -1,0 +1,37 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <div class="part-container">
+      <h2><i class="fas fa-cogs"></i> Detalles de la Pieza</h2>
+      <p class="part-subtitle">Consulta toda la información de la pieza registrada en el sistema.</p>
+
+      <div class="part-info" *ngIf="part">
+        <div class="part-field">
+          <i class="fas fa-tag label"></i> {{ part.name }}
+        </div>
+        <div class="part-field">
+          <i class="fas fa-euro-sign label"></i> {{ part.price | currency }}
+        </div>
+        <div class="part-field">
+          <i class="fas fa-boxes label"></i> Stock: {{ part.stock }}
+        </div>
+        <div class="part-field">
+          <i class="fas fa-percentage label"></i> Margen de beneficio: {{ part.profit_margin }}%
+        </div>
+      </div>
+
+      <div class="part-actions">
+        <button class="back-button" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i> Volver
+        </button>
+        <button class="edit-button" (click)="goToEditPage()">
+          <i class="fas fa-edit"></i> Editar Pieza
+        </button>
+        <button class="print-button" (click)="printPartDetails()">
+          <i class="fas fa-print"></i> Imprimir Ficha
+        </button>
+      </div>
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </div>
+  </div>
+</div>

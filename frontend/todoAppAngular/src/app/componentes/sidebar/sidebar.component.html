@@ -1,0 +1,52 @@
+<i class="fas fa-bars btn-toggle-sidebar" *ngIf="showOpenButton" (click)="toggleSidebar()" style="cursor:pointer;">
+</i>
+
+<nav [class.sidebar-hidden]="!sidebarVisible" class="sidebar">
+<i class="fas fa-times close-btn" *ngIf="isMobile" (click)="closeSidebar()"></i>
+
+  <div class="sidebar-header">
+    <img src="assets/img/logo_app.png" alt="Logo TallerMate" class="sidebar-logo" />
+  </div>
+
+  <div class="mechanic-info">
+    <img [src]="mechanicImage" alt="Imagen Mecánico" class="mechanic-img" />
+    <span class="mechanic-name">{{ mechanicName }}</span>
+    <span class="role-indicator-icon">
+      <i class="fas" [ngClass]="isAdmin ? 'fa-crown admin-icon' : 'fa-wrench mechanic-icon'"></i>
+    </span>
+    <button (click)="logout()" class="logout-button" title="Cerrar sesión">
+      <i class="fas fa-sign-out-alt"></i>
+    </button>
+  </div>
+
+  <hr class="sidebar-separator" />
+
+  <ul class="nav-list">
+    <li *ngIf="isAdmin" routerLinkActive="active">
+      <a routerLink="/dashboardpro"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    </li>
+    <li *ngIf="isAdmin" routerLinkActive="active">
+      <a routerLink="/mechanics"><i class="fas fa-user-cog"></i> Mecánicos</a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/clients"><i class="fas fa-user-friends"></i> Clientes</a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/vehicles"><i class="fas fa-car-side"></i> Vehículos</a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/repairs"><i class="fas fa-tools"></i> Reparaciones</a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/parts"><i class="fas fa-cogs"></i> Piezas</a>
+    </li>
+    <li routerLinkActive="active">
+      <a routerLink="/inbox"><i class="fas fa-inbox"></i> Bandeja de Entrada</a>
+    </li>
+    <li>
+      <a href="https://tudocumentacion.com" target="_blank" rel="noopener">
+        <i class="fas fa-question-circle"></i> Ayuda
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,59 @@
+<div class="dashboard">
+  <app-sidebar></app-sidebar>
+  <main class="main-content">
+    <ng-container *ngIf="!loading; else loadingTemplate">
+      <div class="inbox-container">
+        <h2>Bandeja de entrada</h2>
+        <div class="inbox-sections">
+          <!-- Recibidos -->
+          <section class="inbox-section">
+            <h3><i class="fas fa-inbox"></i> Recibidos</h3>
+            <div *ngIf="received.length > 0; else noReceived">
+              <div class="email-item" *ngFor="let email of received">
+                <div class="email-header">
+                  <i class="fas fa-envelope"></i>
+                  <div>
+                    <div class="email-from">De: {{ email.from_name }} &lt;{{ email.from_email }}&gt;</div>
+                    <div class="email-to">Para: {{ email.to_email }}</div>
+                  </div>
+                  <span class="email-date">{{ email.created_at | date:'short' }}</span>
+                </div>
+                <div class="email-subject">{{ email.subject }}</div>
+                <div class="email-body">{{ email.body }}</div>
+              </div>
+            </div>
+            <ng-template #noReceived>
+              <p class="no-emails">No hay correos recibidos.</p>
+            </ng-template>
+          </section>
+          <!-- Enviados -->
+          <section class="inbox-section">
+            <h3><i class="fas fa-paper-plane"></i> Enviados</h3>
+            <div *ngIf="sent.length > 0; else noSent">
+              <div class="email-item" *ngFor="let email of sent">
+                <div class="email-header">
+                  <i class="fas fa-envelope-open"></i>
+                  <div>
+                    <div class="email-from">De: {{ email.from_name }} &lt;{{ email.from_email }}&gt;</div>
+                    <div class="email-to">Para: {{ email.to_email }}</div>
+                  </div>
+                  <span class="email-date">{{ email.created_at | date:'short' }}</span>
+                </div>
+                <div class="email-subject">{{ email.subject }}</div>
+                <div class="email-body">{{ email.body }}</div>
+              </div>
+            </div>
+            <ng-template #noSent>
+              <p class="no-emails">No hay correos enviados.</p>
+            </ng-template>
+          </section>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #loadingTemplate>
+      <div class="main-content loader-wrapper">
+        <p>Cargando correos...</p>
+      </div>
+    </ng-template>
+  </main>
+</div>

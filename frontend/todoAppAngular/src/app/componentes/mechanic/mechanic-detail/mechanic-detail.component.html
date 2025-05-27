@@ -1,0 +1,41 @@
+<div class="app-container">
+    <app-sidebar></app-sidebar>
+    <div class="main-content">
+        <div class="mechanic-container">
+            <h2><i class="fas fa-user-cog"></i> Detalles del Mecánico</h2>
+            <p class="mechanic-subtitle">Consulta toda la información del mecánico registrado en el sistema.</p>
+
+            <div class="mechanic-info" *ngIf="selectedMechanic">
+                <div class="mechanic-field" style="justify-content: center;">
+                    <img [src]="selectedMechanic.image || 'assets/default-avatar.png'" alt="Foto Mecánico"
+                        style="width:70px;height:70px;border-radius:50%;object-fit:cover;box-shadow:0 2px 8px #0001;"
+                        (error)="onImgError($event)">
+                </div>
+                <div class="mechanic-field">
+                    <i class="fas fa-user label"></i> {{ selectedMechanic.name }}
+                </div>
+                <div class="mechanic-field"><i class="fas fa-envelope label"></i> {{ selectedMechanic.email }}</div>
+                <div class="mechanic-field"><i class="fas fa-euro-sign label"></i> {{ selectedMechanic.hourly_rate }}
+                    €/hora</div>
+                <div class="mechanic-field">
+                    <i class="fas"
+                        [ngClass]="selectedMechanic.role === 'admin' ? 'fa-crown label' : 'fa-wrench label'"></i>
+                    <span [ngClass]="selectedMechanic.role === 'admin' ? 'role-admin' : 'role-mechanic'">
+                        {{ selectedMechanic.role === 'admin' ? 'Administrador' : 'Mecánico' }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="mechanic-actions">
+                <a *ngIf="selectedMechanic && selectedMechanic.id"
+                    [routerLink]="['/edit-mechanic', selectedMechanic.id]" class="edit-button">
+                    <i class="fas fa-edit"></i> Editar Mecánico
+                </a>
+                <button class="back-button" (click)="goBack()">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+            </div>
+            <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+        </div>
+    </div>
+</div>

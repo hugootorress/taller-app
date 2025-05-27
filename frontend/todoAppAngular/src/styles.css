@@ -1,0 +1,27 @@
+body {
+
+    background: #e9e7e7;
+  
+  }
+  
+  .estilosContenedor {
+  
+    border-radius: 10px;
+  
+    margin: 50px;
+  
+    padding: 50px;
+  
+    background: rgb(255, 140, 111);
+  
+  }
+  
+  .tareaCompletada {
+  
+    background: #888;
+  
+    color: #fff;
+  
+    text-decoration: line-through;
+  
+  }

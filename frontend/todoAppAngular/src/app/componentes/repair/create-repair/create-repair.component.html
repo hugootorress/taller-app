@@ -1,0 +1,83 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <div class="repair-container">
+      <h2><i class="fas fa-tools"></i> Crear Reparación</h2>
+
+      <form (ngSubmit)="createRepair()" class="repair-form" #repairForm="ngForm">
+        <div class="form-group">
+          <label for="mechanic_id"><i class="fas fa-user-cog label"></i> Mecánico:</label>
+          <select [(ngModel)]="repair.mechanic_id" name="mechanic_id" required class="form-control"
+            #mechanic_id="ngModel">
+            <option value="" disabled selected>Selecciona un mecánico</option>
+            <option *ngFor="let mechanic of mechanics" [value]="mechanic.id">{{ mechanic.name }}</option>
+          </select>
+          <div class="field-error" *ngIf="mechanic_id.invalid && (mechanic_id.dirty || mechanic_id.touched)">
+            <span *ngIf="mechanic_id.errors?.['required']">Selecciona un mecánico.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="vehicle_id"><i class="fas fa-car label"></i> Vehículo:</label>
+          <select [(ngModel)]="repair.vehicle_id" name="vehicle_id" required class="form-control" #vehicle_id="ngModel">
+            <option value="" disabled selected>Selecciona un vehículo</option>
+            <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">{{ vehicle.model }}</option>
+          </select>
+          <div class="field-error" *ngIf="vehicle_id.invalid && (vehicle_id.dirty || vehicle_id.touched)">
+            <span *ngIf="vehicle_id.errors?.['required']">Selecciona un vehículo.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description"><i class="fas fa-align-left label"></i> Descripción:</label>
+          <input type="text" [(ngModel)]="repair.description" name="description" required minlength="5" maxlength="200"
+            class="form-control" placeholder="Descripción" #description="ngModel" />
+          <div class="field-error" *ngIf="description.invalid && (description.dirty || description.touched)">
+            <span *ngIf="description.errors?.['required']">La descripción es obligatoria.</span>
+            <span *ngIf="description.errors?.['minlength']">Mínimo 5 caracteres.</span>
+            <span *ngIf="description.errors?.['maxlength']">Máximo 200 caracteres.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="repair_date"><i class="fas fa-calendar-alt label"></i> Fecha de reparación:</label>
+          <input type="date" [(ngModel)]="repair.repair_date" name="repair_date" required class="form-control"
+            #repair_date="ngModel" />
+          <div class="field-error" *ngIf="repair_date.invalid && (repair_date.dirty || repair_date.touched)">
+            <span *ngIf="repair_date.errors?.['required']">La fecha es obligatoria.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="hours_spent"><i class="fas fa-clock label"></i> Horas trabajadas:</label>
+          <input type="number" [(ngModel)]="repair.hours_spent" name="hours_spent" required min="0.1" step="0.1"
+            class="form-control" placeholder="Horas" #hours_spent="ngModel" />
+          <div class="field-error" *ngIf="hours_spent.invalid && (hours_spent.dirty || hours_spent.touched)">
+            <span *ngIf="hours_spent.errors?.['required']">Las horas son obligatorias.</span>
+            <span *ngIf="hours_spent.errors?.['min']">Debe ser mayor que 0.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="parts"><i class="fas fa-cogs label"></i> Piezas:</label>
+          <select id="parts" name="parts" [(ngModel)]="repair.parts" class="form-control" multiple required
+            #partsModel="ngModel">
+            <option *ngFor="let part of parts" [value]="part.id">{{ part.name }}</option>
+          </select>
+          <div class="field-error" *ngIf="partsModel.invalid && (partsModel.dirty || partsModel.touched)">
+            <span *ngIf="partsModel.errors?.['required']">Selecciona al menos una pieza.</span>
+          </div>
+        </div>
+
+        <div class="repair-actions">
+          <button type="submit" class="edit-button" [disabled]="repairForm.invalid">
+            <i class="fas fa-wrench"></i> Crear Reparación
+          </button>
+          <button type="button" class="back-button" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Volver
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

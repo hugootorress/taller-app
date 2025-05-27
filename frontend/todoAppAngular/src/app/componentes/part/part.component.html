@@ -1,0 +1,40 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <ng-container *ngIf="!loading; else loadingTemplate">
+      <div class="part-container">
+        <h2>Gestión de Piezas</h2>
+        <div class="search-container">
+          <input
+            type="text"
+            placeholder="Buscar por nombre de pieza"
+            [(ngModel)]="searchTerm"
+            (input)="searchParts()"
+            class="filter-input"
+          />
+        </div>
+        <ul class="vehicle-list">
+          <li *ngFor="let part of filteredParts" class="vehicle-item" [ngClass]="getStockClass(part.stock)">
+            <span>
+              {{ part.name }} — 
+              {{ part.price | currency }} — 
+              Stock: {{ part.stock }}
+            </span>
+            <div class="actions">
+              <button (click)="gotoDetailPartPage(part.id)">Ver</button>
+              <button (click)="deletePart(part.id)">Eliminar</button>
+            </div>
+          </li>
+        </ul>
+        <button class="add-part-button" (click)="goToCreatePartPage()">Crear Pieza</button>
+        <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+    </ng-container>
+    <ng-template #loadingTemplate>
+      <div class="loader-wrapper">
+        <p>Cargando piezas...</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

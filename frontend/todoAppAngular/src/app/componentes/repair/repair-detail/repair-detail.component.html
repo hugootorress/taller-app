@@ -1,0 +1,57 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-content">
+    <div class="client-container">
+      <h2><i class="fas fa-wrench"></i> Detalles de la Reparación</h2>
+      <p class="client-subtitle">Consulta toda la información sobre esta reparación registrada en el sistema.</p>
+
+      <div class="client-info">
+        <div class="client-field"><i class="fas fa-file-alt label"></i> {{ repair?.description }}</div>
+        <div class="client-field"><i class="fas fa-euro-sign label"></i> {{ repair?.total_cost | currency }}</div>
+        <div class="client-field"><i class="fas fa-clock label"></i> {{ repair?.hours_spent }} horas</div>
+      </div>
+
+      <ng-container *ngIf="vehicle">
+        <div class="client-subtitle" style="margin-top: 25px;">Datos del Vehículo</div>
+        <div class="client-info">
+          <div class="client-field"><i class="fas fa-car label"></i> {{ vehicle.model }}</div>
+          <div class="client-field"><i class="fas fa-calendar-alt label"></i> {{ vehicle.year }}</div>
+          <div class="client-field"><i class="fas fa-id-card label"></i> {{ vehicle.license_plate }}</div>
+          <div class="client-field" *ngIf="vehicle.image">
+            <img [src]="vehicle.image" alt="Imagen del vehículo" class="detail-image" />
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="mechanic">
+        <div class="client-subtitle" style="margin-top: 25px;">Datos del Mecánico</div>
+        <div class="client-info">
+          <div class="client-field"><i class="fas fa-user label"></i> {{ mechanic.name }}</div>
+          <div class="client-field"><i class="fas fa-envelope label"></i> {{ mechanic.email }}</div>
+          <div class="client-field"><i class="fas fa-euro-sign label"></i> {{ mechanic.hourly_rate | currency }}</div>
+          <div class="client-field" *ngIf="mechanic.image">
+            <img [src]="mechanic.image" alt="Imagen del mecánico" class="detail-image" />
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="client-actions">
+        <div *ngIf="repair as rep">
+          <div class="edit-repair-container">
+            <button [routerLink]="['/edit-repair', rep.id]" class="edit-button">
+              <i class="fas fa-edit"></i> Editar Reparación
+            </button>
+          </div>
+        </div>
+
+        <button class="back-button" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i> Volver
+        </button>
+        <button class="edit-button" (click)="printInvoice()">
+          <i class="fas fa-file-invoice"></i> Imprimir Factura
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

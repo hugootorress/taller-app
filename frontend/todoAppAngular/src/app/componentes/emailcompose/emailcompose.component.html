@@ -1,0 +1,27 @@
+<div class="dashboard">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <div class="email-container">
+      <h2>Enviar correo a {{ toEmail }}</h2>
+      <form (ngSubmit)="send()">
+        <label for="subject">Asunto</label>
+        <input id="subject" [(ngModel)]="subject" name="subject" required />
+
+        <label for="body">Mensaje</label>
+        <textarea id="body" [(ngModel)]="body" name="body" rows="8" required></textarea>
+
+        <div class="button-group">
+          <button type="submit"><i class="fas fa-paper-plane"></i> Enviar</button>
+          <button type="button" class="cancel" (click)="cancel()">Cancelar</button>
+        </div>
+      </form>
+
+      <p class="success" *ngIf="success">Correo enviado correctamente.</p>
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </div>
+  </main>
+</div>
+

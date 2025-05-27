@@ -1,0 +1,27 @@
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  </head>
+  
+<button class="back-to-dashboard" (click)="goBack()">
+    <i class="fas fa-arrow-left"></i> 
+  </button>
+  
+<div class="analytics container mt-4">
+    <div *ngIf="!isLoading">
+      <h2>Estadísticas de Facturación</h2>
+  
+      <div class="period-selector">
+        <button (click)="onPeriodChange('lastMonth')" [class.active]="selectedPeriod === 'lastMonth'">Último Mes</button>
+        <button (click)="onPeriodChange('lastYear')" [class.active]="selectedPeriod === 'lastYear'">Último Año</button>
+      </div>
+  
+      <canvas baseChart
+              [data]="lineChartData"
+              [options]="lineChartOptions"
+              [legend]="lineChartLegend"
+              [type]="lineChartType"
+              [plugins]="lineChartPlugins">
+      </canvas>
+    </div>
+  </div>
+  
