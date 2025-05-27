@@ -1,0 +1,73 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+  <div class="main-content" *ngIf="stats; else loading">
+    <div class="stats-grid">
+      <div class="stat-card" title="Total Clientes">
+        <div class="icon-wrapper"><i class="fas fa-users"></i></div>
+        <h4>Total Clientes</h4>
+        <p class="stat-number">{{ stats.totalClients | number }}</p>
+      </div>
+      <div class="stat-card" title="Total Vehículos">
+        <div class="icon-wrapper"><i class="fas fa-car"></i></div>
+        <h4>Total Vehículos</h4>
+        <p class="stat-number">{{ stats.totalVehicles | number }}</p>
+      </div>
+      <div class="stat-card" title="Total Reparaciones">
+        <div class="icon-wrapper"><i class="fas fa-tools"></i></div>
+        <h4>Total Reparaciones</h4>
+        <p class="stat-number">{{ stats.totalRepairs | number }}</p>
+      </div>
+      <div class="stat-card" title="Reparaciones del Mes">
+        <div class="icon-wrapper"><i class="fas fa-calendar-alt"></i></div>
+        <h4>Reparaciones Mes</h4>
+        <p class="stat-number">{{ stats.monthlyRepairs | number }}</p>
+      </div>
+      <div class="stat-card" title="Horas Totales Trabajadas">
+        <div class="icon-wrapper"><i class="fas fa-clock"></i></div>
+        <h4>Horas Totales</h4>
+        <p class="stat-number">{{ stats.totalHours }} h</p>
+      </div>
+      <div class="stat-card" title="Ingreso Total">
+        <div class="icon-wrapper"><i class="fas fa-dollar-sign"></i></div>
+        <h4>Ingreso Total</h4>
+        <p class="stat-number">${{ stats.totalRevenue | number:'1.0-2' }}</p>
+      </div>
+      <div class="stat-card" title="Piezas Bajo Stock">
+        <div class="icon-wrapper"><i class="fas fa-box-open"></i></div>
+        <h4>Piezas Bajo Stock</h4>
+        <p class="stat-number">{{ stats.lowStockParts | number }}</p>
+      </div>
+      <div class="stat-card" title="Valor Inventario">
+        <div class="icon-wrapper"><i class="fas fa-warehouse"></i></div>
+        <h4>Valor Inventario</h4>
+        <p class="stat-number">${{ stats.inventoryValue | number:'1.0-2' }}</p>
+      </div>
+    </div>
+
+    <section class="list-section">
+      <h5>Top 5 Clientes por Reparaciones</h5>
+      <ul class="custom-list">
+        <li *ngFor="let c of stats.topClients">
+          <span class="client-name">{{ c.name }}</span>
+          <span class="badge">{{ c.repairs_count }}</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="list-section">
+      <h5>Reparaciones por Año</h5>
+      <ul class="custom-list">
+        <li *ngFor="let y of stats.repairsByYear">
+          <span class="year">{{ y.year }}</span>
+          <span class="badge">{{ y.count }}</span>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <ng-template #loading>
+    <div class="main-content loader-wrapper">
+      <p>Cargando estadísticas...</p>
+    </div>
+  </ng-template>
+</div>

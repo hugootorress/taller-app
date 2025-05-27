@@ -1,0 +1,68 @@
+.analytics {
+  max-width: 95%;
+  margin: 20px auto;
+  padding: 40px;
+  border: 2px solid #0741ad;
+  border-radius: 10px;
+  background-color: rgba(7, 65, 173, 0.05);
+  box-shadow: 0 4px 12px rgba(7, 65, 173, 0.2);
+}
+
+.analytics h2 {
+  font-size: 28px;
+  color: #0741ad;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.period-selector {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.period-selector button {
+  padding: 10px;
+  margin: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.period-selector button.active {
+  background-color: #0056b3;
+}
+
+.period-selector button:hover {
+  background-color: #0056b3;
+}
+
+canvas {
+  max-width: 100%;
+  margin-top: 20px;
+}
+
+.back-to-dashboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 0.5px solid #0741ad;
+  background-color: #0741ad;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 30px; 
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+.back-to-dashboard:hover {
+background-color: #052f8c;
+}
+

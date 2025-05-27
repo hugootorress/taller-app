@@ -1,0 +1,67 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-content">
+    <ng-container *ngIf="!loading; else loadingTemplate">
+     <div class="repair-container">
+      <h2>Gestión de Reparaciones</h2>
+
+      <div class="search-container">
+        <select [(ngModel)]="selectedFilter" (change)="onFilterChange()" class="filter-select">
+          <option value="description">Descripción</option>
+          <option value="date">Fecha</option>
+          <option value="vehicleModel">Modelo de coche</option>
+        </select>
+
+        <div class="search-input-wrapper">
+          <input
+            *ngIf="selectedFilter === 'description'"
+            type="text"
+            placeholder="Buscar por descripción"
+            [(ngModel)]="searchTerm.description"
+            (input)="searchRepairs()"
+          />
+          <input
+            *ngIf="selectedFilter === 'date'"
+            type="date"
+            [(ngModel)]="searchTerm.date"
+            (input)="searchRepairs()"
+          />
+          <input
+            *ngIf="selectedFilter === 'vehicleModel'"
+            type="text"
+            placeholder="Buscar por modelo de coche"
+            [(ngModel)]="searchTerm.vehicleModel"
+            (input)="searchRepairs()"
+          />
+        </div>
+      </div>
+
+      <ul class="vehicle-list">
+        <li *ngFor="let repair of filteredRepairs" class="vehicle-item">
+          <span>
+            {{ repair.description }} — 
+            {{ repair.repair_date }} — 
+            {{ repair.total_cost | currency }} — 
+            {{ getVehicleById(repair.vehicle_id)?.model }}
+          </span>
+          <div class="actions">
+            <button *ngIf="repair.id !== undefined" (click)="viewRepair(repair.id!)">Ver</button>
+            <button *ngIf="repair.id !== undefined" (click)="deleteRepair(repair.id!)">Eliminar</button>
+          </div>
+        </li>
+      </ul>
+
+      <button class="add-vehicle-button" (click)="goToCreateRepairPage()">Crear Reparación</button>
+
+      <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </div>
+    </ng-container>
+    <ng-template #loadingTemplate>
+      <div class="loader-wrapper">
+        <p>Cargando reparaciones...</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

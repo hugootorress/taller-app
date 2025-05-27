@@ -1,0 +1,104 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <div class="client-container">
+      <h2><i class="fas fa-user-edit"></i> Editar Cliente</h2>
+
+      <div *ngIf="clientId && client">
+        <form #editForm="ngForm" (ngSubmit)="updateClient()">
+          <div class="form-group">
+            <label for="name"><i class="fas fa-user label"></i> Nombre:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              [(ngModel)]="client.name"
+              required
+              minlength="3"
+              maxlength="50"
+              class="form-control"
+              placeholder="Nombre"
+              #name="ngModel"
+            />
+            <div class="field-error" *ngIf="name.invalid && (name.dirty || name.touched)">
+              <span *ngIf="name.errors?.['required']">El nombre es obligatorio.</span>
+              <span *ngIf="name.errors?.['minlength']">Mínimo 3 caracteres.</span>
+              <span *ngIf="name.errors?.['maxlength']">Máximo 50 caracteres.</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email"><i class="fas fa-envelope label"></i> Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="client.email"
+              required
+              email
+              class="form-control"
+              placeholder="Email"
+              #email="ngModel"
+            />
+            <div class="field-error" *ngIf="email.invalid && (email.dirty || email.touched)">
+              <span *ngIf="email.errors?.['required']">El email es obligatorio.</span>
+              <span *ngIf="email.errors?.['email']">Formato de email no válido.</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone"><i class="fas fa-phone label"></i> Teléfono:</label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              [(ngModel)]="client.phone"
+              required
+              pattern="^[0-9]{9,15}$"
+              class="form-control"
+              placeholder="Teléfono"
+              #phone="ngModel"
+            />
+            <div class="field-error" *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+              <span *ngIf="phone.errors?.['required']">El teléfono es obligatorio.</span>
+              <span *ngIf="phone.errors?.['pattern']">Solo números (9-15 dígitos).</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="address"><i class="fas fa-map-marker-alt label"></i> Dirección:</label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              [(ngModel)]="client.address"
+              required
+              minlength="5"
+              maxlength="100"
+              class="form-control"
+              placeholder="Dirección"
+              #address="ngModel"
+            />
+            <div class="field-error" *ngIf="address.invalid && (address.dirty || address.touched)">
+              <span *ngIf="address.errors?.['required']">La dirección es obligatoria.</span>
+              <span *ngIf="address.errors?.['minlength']">Mínimo 5 caracteres.</span>
+              <span *ngIf="address.errors?.['maxlength']">Máximo 100 caracteres.</span>
+            </div>
+          </div>
+
+          <div class="client-actions">
+            <button type="submit" class="edit-button" [disabled]="editForm.invalid">
+              <i class="fas fa-save"></i> Actualizar Cliente
+            </button>
+            <button type="button" class="back-button" (click)="goBack()">
+              <i class="fas fa-arrow-left"></i> Volver
+            </button>
+          </div>
+        </form>
+
+        <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+    </div>
+  </div>
+</div>

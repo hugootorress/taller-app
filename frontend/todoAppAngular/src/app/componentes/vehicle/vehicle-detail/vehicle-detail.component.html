@@ -1,0 +1,29 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-content">
+    <div class="vehicle-container">
+      <h2><i class="fas fa-car"></i> Detalles del Vehículo</h2>
+      <p class="vehicle-subtitle">Consulta toda la información del vehículo registrado en el sistema.</p>
+
+      <div class="vehicle-info">
+        <div *ngIf="vehicle?.image" class="vehicle-image-container">
+          <img [src]="vehicle?.image" alt="Imagen del vehículo" class="vehicle-image" />
+        </div>
+        <div class="vehicle-field"><i class="fas fa-car label"></i> {{ vehicle?.license_plate }}</div>
+        <div class="vehicle-field"><i class="fas fa-cogs label"></i> {{ vehicle?.model }}</div>
+        <div class="vehicle-field"><i class="fas fa-calendar-alt label"></i> {{ vehicle?.year }}</div>
+        <div class="vehicle-field"><i class="fas fa-user label"></i> {{ client?.name }}</div>
+      </div>
+
+      <div class="vehicle-actions">
+        <a *ngIf="vehicle && vehicle.id" [routerLink]="['/edit-vehicle', vehicle.id]" class="edit-vehicle-button">
+          <i class="fas fa-edit"></i> Editar Vehículo
+        </a>
+        <button class="back-button" (click)="goBack()">
+          <i class="fas fa-arrow-left"></i> Volver
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

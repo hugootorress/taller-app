@@ -1,0 +1,35 @@
+<div class="dashboard">
+  <app-sidebar></app-sidebar>
+  <main class="main-content">
+    <ng-container *ngIf="!loading; else loadingTemplate">
+      <div class="mechanic-container">
+        <h2>Gestión de Mecánicos</h2>
+        <div class="search-container">
+          <input
+            type="text"
+            placeholder="Buscar por nombre"
+            [(ngModel)]="searchTerm"
+            (input)="searchMechanics()"
+          />
+        </div>
+        <ul class="mechanic-list">
+          <li *ngFor="let mechanic of filteredMechanics" class="mechanic-item">
+            <span>{{ mechanic.name }} — {{ mechanic.email }} — {{ mechanic.role }}</span>
+            <div class="actions">
+              <button (click)="viewMechanic(mechanic.id)">Ver</button>
+              <button (click)="deleteMechanic(mechanic.id)">Eliminar</button>
+            </div>
+          </li>
+        </ul>
+        <button class="add-mechanic-button" (click)="goToCreateMechanicPage()">Crear Mecánico</button>
+        <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+    </ng-container>
+    <ng-template #loadingTemplate>
+      <div class="loader-wrapper">
+        <p>Cargando mecánicos...</p>
+      </div>
+    </ng-template>
+  </main>
+</div>

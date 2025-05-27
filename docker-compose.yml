@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  # Laravel Backend (PHP)
+  laravel:
+    build: ./backend/mariadb_php_apache_dockercompose/php_docker
+    working_dir: /var/www/html/taller_api
+    volumes:
+      - ./backend/mariadb_php_apache_dockercompose/www:/var/www/html
+    ports:
+      - "8000:8000"
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    depends_on:
+      - mariadb
+
+  # Apache (opcional si usas artisan)
+  apache:
+    build: ./backend/mariadb_php_apache_dockercompose/apache_docker
+    depends_on:
+      - laravel
+    ports:
+      - "8081:80"
+    volumes:
+      - ./backend/mariadb_php_apache_dockercompose/www:/var/www/html
+
+  # MariaDB para Laravel
+  mariadb:
+    image: mariadb:10.11
+    environment:
+      MYSQL_ROOT_PASSWORD: password123
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+  # phpMyAdmin (opcional)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: mariadb
+    depends_on:
+      - mariadb
+
+  # Angular Frontend
+  frontend:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - ./frontend/todoAppAngular:/app
+    ports:
+      - "4200:4200"
+    command: sh -c "npm install && npx ng serve --host 0.0.0.0"
+    stdin_open: true
+    tty: true
+
+  # WordPress
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    ports:
+      - "9090:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: root
+    volumes:
+      - ./WordPress/wp-content:/var/www/html/wp-content
+      - ./WordPress/config/php.ini:/usr/local/etc/php/conf.d/uploads.ini
+    depends_on:
+      - db
+    networks:
+      - wp-network
+
+  # WordPress Database
+  db:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+    networks:
+      - wp-network
+
+volumes:
+  mysqldata:
+
+networks:
+  wp-network:
+    driver: bridge

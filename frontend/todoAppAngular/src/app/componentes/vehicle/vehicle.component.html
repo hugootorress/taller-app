@@ -1,0 +1,43 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <ng-container *ngIf="!loading; else loadingTemplate">
+      <div class="vehicle-container">
+        <h2>Gestión de Vehículos</h2>
+
+        <div class="search-container">
+          <select [(ngModel)]="searchFilter" class="filter-select">
+            <option value="license_plate">Matrícula</option>
+            <option value="model">Modelo</option>
+            <option value="year">Año</option>
+          </select>
+          <div class="search-input-wrapper">
+            <input type="text" [placeholder]="'Buscar'" [(ngModel)]="searchTerm" (input)="searchVehicles()" />
+          </div>
+        </div>
+
+        <ul class="vehicle-list">
+          <li *ngFor="let v of filteredVehicles" class="vehicle-item">
+            <img class="vehicle-img" [src]="v.image || 'assets/img/vehicle.png'" alt="Imagen vehículo"
+              (error)="v.image = 'assets/img/vehicle.png'" />
+            <span>{{ v.license_plate }} — {{ v.model }} — {{ v.year }}</span>
+            <div class="actions">
+              <button (click)="viewVehicle(v.id)">Ver</button>
+              <button (click)="deleteVehicle(v.id)">Eliminar</button>
+            </div>
+          </li>
+        </ul>
+
+        <button class="add-vehicle-button" (click)="goToCreateVehiclePage()">Crear Vehículo</button>
+
+        <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+    </ng-container>
+    <ng-template #loadingTemplate>
+      <div class="loader-wrapper">
+        <p>Cargando vehículos...</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

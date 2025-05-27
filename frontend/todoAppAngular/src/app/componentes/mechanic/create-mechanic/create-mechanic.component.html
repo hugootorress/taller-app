@@ -1,0 +1,127 @@
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+
+  <div class="main-content">
+    <div class="mechanic-container">
+      <h2><i class="fas fa-user-plus"></i> Registrar Mecánico</h2>
+
+      <form (ngSubmit)="submit()" #mechanicForm="ngForm">
+        <div class="form-group">
+          <label for="name"><i class="fas fa-user label"></i> Nombre:</label>
+          <input
+            id="name"
+            type="text"
+            [(ngModel)]="name"
+            name="name"
+            required
+            minlength="3"
+            maxlength="50"
+            class="form-control"
+            #nameModel="ngModel"
+          />
+          <div class="field-error" *ngIf="nameModel.invalid && (nameModel.dirty || nameModel.touched)">
+            <span *ngIf="nameModel.errors?.['required']">El nombre es obligatorio.</span>
+            <span *ngIf="nameModel.errors?.['minlength']">Mínimo 3 caracteres.</span>
+            <span *ngIf="nameModel.errors?.['maxlength']">Máximo 50 caracteres.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope label"></i> Email:</label>
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            email
+            class="form-control"
+            #emailModel="ngModel"
+          />
+          <div class="field-error" *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched)">
+            <span *ngIf="emailModel.errors?.['required']">El email es obligatorio.</span>
+            <span *ngIf="emailModel.errors?.['email']">Formato de email no válido.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password"><i class="fas fa-lock label"></i> Contraseña:</label>
+          <input
+            id="password"
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            minlength="6"
+            maxlength="30"
+            class="form-control"
+            #passwordModel="ngModel"
+          />
+          <div class="field-error" *ngIf="passwordModel.invalid && (passwordModel.dirty || passwordModel.touched)">
+            <span *ngIf="passwordModel.errors?.['required']">La contraseña es obligatoria.</span>
+            <span *ngIf="passwordModel.errors?.['minlength']">Mínimo 6 caracteres.</span>
+            <span *ngIf="passwordModel.errors?.['maxlength']">Máximo 30 caracteres.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="hourly_rate"><i class="fas fa-clock label"></i> Tarifa por hora (€):</label>
+          <input
+            id="hourly_rate"
+            type="number"
+            [(ngModel)]="hourly_rate"
+            name="hourly_rate"
+            min="0"
+            step="0.01"
+            required
+            class="form-control"
+            #rateModel="ngModel"
+          />
+          <div class="field-error" *ngIf="rateModel.invalid && (rateModel.dirty || rateModel.touched)">
+            <span *ngIf="rateModel.errors?.['required']">La tarifa es obligatoria.</span>
+            <span *ngIf="rateModel.errors?.['min']">No puede ser negativa.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-image label"></i> Imagen (opcional):</label>
+          <input
+            type="file"
+            (change)="handleImageUpload($event)"
+            accept="image/*"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="role"><i class="fas fa-user-shield label"></i> Rol:</label>
+          <select
+            id="role"
+            [(ngModel)]="role"
+            name="role"
+            required
+            class="form-control"
+            #roleModel="ngModel"
+          >
+            <option value="mechanic">Mecánico</option>
+            <option value="admin">Administrador</option>
+          </select>
+          <div class="field-error" *ngIf="roleModel.invalid && (roleModel.dirty || roleModel.touched)">
+            <span *ngIf="roleModel.errors?.['required']">El rol es obligatorio.</span>
+          </div>
+        </div>
+
+        <div class="mechanic-actions">
+          <button type="submit" class="edit-button" [disabled]="mechanicForm.invalid">
+            <i class="fas fa-plus-circle"></i> Crear Mecánico
+          </button>
+          <button type="button" class="back-button" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Volver
+          </button>
+          <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+          <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
