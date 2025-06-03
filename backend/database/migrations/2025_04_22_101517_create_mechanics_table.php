@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->decimal('hourly_rate', 8, 2);
             $table->string('image')->nullable();
+            $table->string('role')->default('mechanic');
         });
     }
 
