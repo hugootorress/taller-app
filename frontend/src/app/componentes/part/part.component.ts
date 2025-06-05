@@ -67,8 +67,8 @@ export class PartComponent implements OnInit {
         next: () => {
           this.parts = this.parts.filter(part => part.id !== id);
           this.filteredParts = this.filteredParts.filter(part => part.id !== id);
-          this.successMessage = 'Pieza eliminada correctamente';
-          console.log(this.successMessage); 
+          console.log('Pieza eliminada correctamente');
+          this.successMessage = '';
         },
         error: (error) => {
           console.error('Error al eliminar pieza', error);

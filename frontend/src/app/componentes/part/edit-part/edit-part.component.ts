@@ -44,16 +44,16 @@ export class EditPartComponent implements OnInit {
   }
 
   updatePart(): void {
-  this.partService.updatePart(Number(this.part.id), this.part).subscribe(
-    () => {
-      this.successMessage = 'Pieza actualizada con éxito.';
-      this.router.navigate(['/parts']);
-    },
-    () => {
-      this.errorMessage = 'Error al actualizar la pieza.';
-    }
-  );
-}
+    this.partService.updatePart(Number(this.part.id), this.part).subscribe({
+      next: () => {
+        this.successMessage = 'Pieza actualizada con éxito.';
+        this.router.navigate(['/parts']);
+      },
+      error: () => {
+        this.errorMessage = 'Error al actualizar la pieza.';
+      }
+    });
+  }
 
   goBack(): void {
     this.router.navigate(['/parts']);

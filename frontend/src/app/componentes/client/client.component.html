@@ -18,9 +18,6 @@
           <li *ngFor="let client of filteredClients" class="client-item">
             <span>{{ client.name }} — {{ client.phone }} — {{ client.email }}</span>
             <div class="actions">
-              <button (click)="composeEmail(client.email)">
-                <i class="fas fa-envelope"></i>
-              </button>
               <button (click)="viewClient(client.id)">Ver</button>
               <button (click)="deleteClient(client.id)">Eliminar</button>
             </div>

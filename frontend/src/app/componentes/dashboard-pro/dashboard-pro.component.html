@@ -30,7 +30,7 @@
       <div class="stat-card" title="Ingreso Total">
         <div class="icon-wrapper"><i class="fas fa-dollar-sign"></i></div>
         <h4>Ingreso Total</h4>
-        <p class="stat-number">${{ stats.totalRevenue | number:'1.0-2' }}</p>
+        <p class="stat-number">€{{ stats.totalRevenue | number:'1.0-2' }}</p>
       </div>
       <div class="stat-card" title="Piezas Bajo Stock">
         <div class="icon-wrapper"><i class="fas fa-box-open"></i></div>
@@ -62,6 +62,16 @@
           <span class="badge">{{ y.count }}</span>
         </li>
       </ul>
+    </section>
+    <!-- Apartado para modificar el IVA -->
+    <section class="list-section" style="margin-top: 30px;">
+      <h5>Configuración de IVA</h5>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <label for="ivaInput" style="font-weight: bold;">IVA actual:</label>
+        <input id="ivaInput" type="number" min="0" max="100" step="0.1" [(ngModel)]="ivaPercent" (change)="onIvaChange(ivaPercent)" style="width: 70px; padding: 3px 6px; border-radius: 4px; border: 1px solid #ccc;" />
+        <span style="font-weight: bold;">%</span>
+      </div>
+      <small style="color: #888;">Por defecto 21% (España). Cambia el valor para actualizar el IVA aplicado en facturas.</small>
     </section>
   </div>
 

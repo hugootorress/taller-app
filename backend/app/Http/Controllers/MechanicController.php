@@ -41,6 +41,20 @@ class MechanicController extends Controller
             'role' => 'sometimes|required|in:admin,mecanico'
         ]);
 
+        // Validar tamaño de imagen (base64 o archivo)
+        if ($request->image) {
+            $imageData = $request->image;
+            $imageSize = strlen($imageData);
+            if ($imageSize > 45 * 1024) {
+                return response()->json(['error' => 'La imagen no puede superar los 45KB'], 422);
+            }
+        } elseif ($request->hasFile('image')) {
+            $file = $request->file('image');
+            if ($file->getSize() > 45 * 1024) {
+                return response()->json(['error' => 'La imagen no puede superar los 45KB'], 422);
+            }
+        }
+
         $mechanic->name = $request->name ?? $mechanic->name;
         $mechanic->email = $request->email ?? $mechanic->email;
         $mechanic->hourly_rate = $request->hourly_rate ?? $mechanic->hourly_rate;
@@ -64,8 +78,12 @@ class MechanicController extends Controller
             return response()->json(['error' => 'Mecánico no encontrado'], 404);
         }
 
+        // Eliminar reparaciones asociadas
+        foreach ($mechanic->repairs as $repair) {
+            $repair->delete();
+        }
         $mechanic->delete();
 
-        return response()->json(['message' => 'Mecánico eliminado correctamente']);
+        return response()->json(['message' => 'Mecánico y sus reparaciones eliminados correctamente']);
     }
 }

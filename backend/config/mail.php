@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
@@ -36,7 +35,6 @@ return [
     */
 
     'mailers' => [
-
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME'),
@@ -94,7 +92,6 @@ return [
                 'postmark',
             ],
         ],
-
     ],
 
     /*
@@ -109,8 +106,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'onboarding@resend.dev'),
+        'name' => env('MAIL_FROM_NAME', 'Taller App'),
     ],
-
 ];

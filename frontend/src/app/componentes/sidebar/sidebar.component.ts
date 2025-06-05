@@ -15,13 +15,20 @@ export class SidebarComponent implements OnInit {
   isMobile = false;
   isAdmin = localStorage.getItem('mechanicIsAdmin') === 'true';
   mechanicName = localStorage.getItem('mechanicName') || 'Mecánico';
-  mechanicImage = localStorage.getItem('mechanicImage') || 'assets/img/default-avatar.png';
+  mechanicImage: string = 'assets/img/default-avatar.png';
 
   showOpenButton = false;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    let img = localStorage.getItem('mechanicImage');
+    if (!img || img === 'null' || img === 'undefined' || img === undefined) {
+      img = 'assets/img/default-avatar.png';
+      localStorage.removeItem('mechanicImage');
+    }
+    this.mechanicImage = img;
+
     const width = window.innerWidth;
     if (width > 1024) {
       this.sidebarVisible = true;
@@ -46,13 +53,13 @@ export class SidebarComponent implements OnInit {
     this.authService.logout();
   }
 
- @HostListener('window:resize', ['$event'])
-onResize(event: Event): void {
-  const width = (event.target as Window).innerWidth;
-  this.isMobile = width <= 1024;
-  this.sidebarVisible = !this.isMobile;
-  this.showOpenButton = this.isMobile && !this.sidebarVisible;
-}
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    const width = (event.target as Window).innerWidth;
+    this.isMobile = width <= 1024;
+    this.sidebarVisible = !this.isMobile;
+    this.showOpenButton = this.isMobile && !this.sidebarVisible;
+  }
 
   private updateShowOpenButton(): void {
     const width = window.innerWidth;

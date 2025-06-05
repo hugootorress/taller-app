@@ -10,7 +10,32 @@ class ApiControllerRepair extends Controller
 {
     public function index()
     {
-        return response()->json(Repair::with(['parts', 'vehicle', 'mechanic'])->get());
+        $repairs = Repair::with(['parts', 'vehicle', 'mechanic'])->get();
+        $repairs = $repairs->map(function ($repair) {
+            $parts = $repair->parts->map(function ($part) {
+                return [
+                    'id' => $part->id,
+                    'name' => $part->name,
+                    'price' => $part->price,
+                    'sale_price' => $part->sale_price,
+                    'stock' => $part->stock,
+                    'profit_margin' => $part->profit_margin
+                ];
+            });
+            return [
+                'id' => $repair->id,
+                'mechanic_id' => $repair->mechanic_id,
+                'vehicle_id' => $repair->vehicle_id,
+                'description' => $repair->description,
+                'repair_date' => $repair->repair_date,
+                'total_cost' => $repair->total_cost,
+                'hours_spent' => $repair->hours_spent,
+                'parts' => $parts,
+                'vehicle' => $repair->vehicle,
+                'mechanic' => $repair->mechanic
+            ];
+        });
+        return response()->json($repairs);
     }
 
     public function show($id)
@@ -21,7 +46,31 @@ class ApiControllerRepair extends Controller
             return response()->json(['error' => 'Reparación no encontrada'], 404);
         }
 
-        return response()->json($repair);
+        $parts = $repair->parts->map(function ($part) {
+            return [
+                'id' => $part->id,
+                'name' => $part->name,
+                'price' => $part->price,
+                'sale_price' => $part->sale_price,
+                'stock' => $part->stock,
+                'profit_margin' => $part->profit_margin
+            ];
+        });
+
+        $repairData = [
+            'id' => $repair->id,
+            'mechanic_id' => $repair->mechanic_id,
+            'vehicle_id' => $repair->vehicle_id,
+            'description' => $repair->description,
+            'repair_date' => $repair->repair_date,
+            'total_cost' => $repair->total_cost,
+            'hours_spent' => $repair->hours_spent,
+            'parts' => $parts,
+            'vehicle' => $repair->vehicle,
+            'mechanic' => $repair->mechanic
+        ];
+
+        return response()->json($repairData);
     }
 
     public function store(Request $request)
@@ -101,6 +150,12 @@ class ApiControllerRepair extends Controller
     public function getRepairsByVehicle($vehicleId)
     {
         $repairs = Repair::where('vehicle_id', $vehicleId)->get();
+        return response()->json($repairs);
+    }
+
+    public function getRepairsByMechanic($mechanicId)
+    {
+        $repairs = Repair::where('mechanic_id', $mechanicId)->get();
         return response()->json($repairs);
     }
 

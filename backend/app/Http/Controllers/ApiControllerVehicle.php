@@ -37,6 +37,19 @@ class ApiControllerVehicle extends Controller
             'image' => 'nullable|string',
         ]);
 
+        if ($request->image) {
+            $imageData = $request->image;
+            $imageSize = strlen($imageData);
+            if ($imageSize > 45 * 1024) {
+                return response()->json(['error' => 'La imagen no puede superar los 45KB'], 422);
+            }
+        } elseif ($request->hasFile('image')) {
+            $file = $request->file('image');
+            if ($file->getSize() > 45 * 1024) {
+                return response()->json(['error' => 'La imagen no puede superar los 45KB'], 422);
+            }
+        }
+
 
         $vehicle = Vehicle::create([
             'license_plate' => $request->license_plate,
@@ -66,6 +79,20 @@ class ApiControllerVehicle extends Controller
             'client_id' => 'required|exists:clients,id',
             'image' => 'nullable|string',
         ]);
+
+        // Validar tamaño de imagen (base64 o archivo)
+        if ($request->image) {
+            $imageData = $request->image;
+            $imageSize = strlen($imageData);
+            if ($imageSize > 45 * 1024) {
+                return response()->json(['error' => 'La imagen no puede superar los 45KB'], 422);
+            }
+        } elseif ($request->hasFile('image')) {
+            $file = $request->file('image');
+            if ($file->getSize() > 45 * 1024) {
+                return response()->json(['error' => 'La imagen no puede superar los 45KB'], 422);
+            }
+        }
 
         $vehicle = Vehicle::find($id);
 

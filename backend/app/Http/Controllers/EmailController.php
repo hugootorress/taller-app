@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Email;
+use Resend\Client;
 
 class EmailController extends Controller
 {
@@ -26,23 +25,30 @@ class EmailController extends Controller
             ], 422);
         }
 
-        try {
-            Mail::raw($request->body, function ($message) use ($request) {
-                $message->from($request->from_email, $request->from_name)
-                        ->to($request->to)
-                        ->subject($request->subject);
-            });
+        if ($request->from_email !== 'onboarding@resend.dev' || $request->to !== 'hugales2005@gmail.com') {
+            return response()->json([
+                'message' => 'Solo puedes enviar correos desde onboarding@resend.dev a hugales2005@gmail.com (taller).',
+            ], 403);
+        }
 
-            Email::create([
-                'from_email' => $request->from_email,
-                'from_name' => $request->from_name,
-                'to_email' => $request->to,
+        try {
+            // Usar la clase Resend global para crear el cliente correctamente
+            $resend = \Resend::client(env('RESEND_API_KEY'));
+            $result = $resend->emails->send([
+                'from' => $request->from_name . ' <' . $request->from_email . '>',
+                'to' => [$request->to],
                 'subject' => $request->subject,
-                'body' => $request->body,
-                'is_sent' => true,
+                'html' => nl2br($request->body),
             ]);
 
-            return response()->json(['message' => 'Correo enviado y registrado correctamente']);
+            if (isset($result['error'])) {
+                return response()->json([
+                    'message' => 'Error al enviar el correo con Resend',
+                    'error' => $result['error'],
+                ], 500);
+            }
+
+            return response()->json(['message' => 'Correo enviado correctamente']);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error al enviar el correo',
@@ -50,24 +56,4 @@ class EmailController extends Controller
             ], 500);
         }
     }
-
-    public function inbox(Request $request)
-{
-    $user = $request->user();  
-
-    if (!$user) {
-        return response()->json(['message' => 'No autenticado'], 401);
-    }
-
-    $email = $user->email; 
-
-    $received = Email::where('to_email', $email)->orderBy('created_at', 'desc')->get();
-    $sent = Email::where('from_email', $email)->orderBy('created_at', 'desc')->get();
-
-    return response()->json([
-        'received' => $received,
-        'sent' => $sent,
-    ]);
-}
-
 }

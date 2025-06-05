@@ -62,20 +62,58 @@ export class MechanicComponent implements OnInit {
   }
 
   deleteMechanic(id: number): void {
-    const confirmDelete = confirm('¿Estás seguro de que deseas eliminar este mecánico?');
-    if (confirmDelete) {
-      this.mechanicService.deleteMechanic(id).subscribe({
-        next: () => {
-          this.loadMechanics();
-          this.successMessage = 'Mecánico eliminado correctamente';
-          this.errorMessage = '';
-        },
-        error: () => {
-          this.errorMessage = 'Error al eliminar mecánico';
-          this.successMessage = '';
-        },
-      });
-    }
+    // Consultar reparaciones asociadas antes de eliminar
+    this.mechanicService.getMechanic(id).subscribe({
+      next: (mechanic) => {
+        // Suponiendo que mechanic.repair_count o mechanic.repairs existe, si no, habría que hacer otra petición
+        this.mechanicService.getRepairsByMechanic(id).subscribe({
+          next: (repairs) => {
+            const count = repairs.length;
+            let confirmDelete = true;
+            if (count > 0) {
+              confirmDelete = confirm(`Este mecánico tiene ${count} reparaciones asociadas. ¿Seguro que quieres eliminarlo?`);
+            } else {
+              confirmDelete = confirm('¿Estás seguro de que deseas eliminar este mecánico?');
+            }
+            if (confirmDelete) {
+              this.mechanicService.deleteMechanic(id).subscribe({
+                next: () => {
+                  this.loadMechanics();
+                  console.log('Mecánico eliminado correctamente');
+                  this.successMessage = '';
+                  this.errorMessage = '';
+                },
+                error: () => {
+                  this.errorMessage = 'Error al eliminar mecánico';
+                  this.successMessage = '';
+                },
+              });
+            }
+          },
+          error: () => {
+            // Si no se pueden obtener reparaciones, preguntar igualmente
+            const confirmDelete = confirm('¿Estás seguro de que deseas eliminar este mecánico?');
+            if (confirmDelete) {
+              this.mechanicService.deleteMechanic(id).subscribe({
+                next: () => {
+                  this.loadMechanics();
+                  console.log('Mecánico eliminado correctamente');
+                  this.successMessage = '';
+                  this.errorMessage = '';
+                },
+                error: () => {
+                  this.errorMessage = 'Error al eliminar mecánico';
+                  this.successMessage = '';
+                },
+              });
+            }
+          }
+        });
+      },
+      error: () => {
+        this.errorMessage = 'No se pudo cargar el mecánico';
+      }
+    });
   }
 
   goToCreateMechanicPage(): void {

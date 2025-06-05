@@ -18,6 +18,9 @@ COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 # Instala Composer
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
+# Copia configuración personalizada de PHP
+COPY php.ini /usr/local/etc/php/
+
 # Instala dependencias de PHP y Node
 WORKDIR /var/www/html
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader \

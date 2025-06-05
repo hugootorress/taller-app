@@ -61,15 +61,15 @@ export class EditVehicleComponent implements OnInit {
   }
 
   updateVehicle(): void {
-    this.vehicleService.updateVehicle(this.vehicle).subscribe(
-      () => {
+    this.vehicleService.updateVehicle(this.vehicle).subscribe({
+      next: () => {
         this.successMessage = 'Vehículo actualizado con éxito.';
         this.router.navigate(['/vehicles']);
       },
-      () => {
+      error: () => {
         this.errorMessage = 'Error al actualizar el vehículo.';
       }
-    );
+    });
   }
 
   onImageChange(event: any): void {

@@ -108,18 +108,19 @@ export class EditRepairComponent implements OnInit {
   updateRepair(): void {
     this.repair.mechanic_id = Number(this.repair.mechanic_id);
     this.repair.vehicle_id = Number(this.repair.vehicle_id);
-    this.repair.hours_spent = Number(this.repair.hours_spent);  
-
-
-    this.repairService.updateRepair(this.repair).subscribe(
-      (updatedRepair) => {
+    this.repair.hours_spent = Number(this.repair.hours_spent);
+    // Eliminar el campo total_cost antes de enviar
+    const { total_cost, ...repairToSend } = this.repair;
+    this.repairService.updateRepair(repairToSend as Repair).subscribe({
+      next: (updatedRepair) => {
         console.log('Reparación actualizada', updatedRepair);
         this.router.navigate(['/repairs']);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error al actualizar la reparación', error);
+        this.errorMessage = 'Error al actualizar la reparación';
       }
-    );
+    });
   }
 
   goBack(): void {

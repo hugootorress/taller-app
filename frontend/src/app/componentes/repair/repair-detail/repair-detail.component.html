@@ -8,8 +8,17 @@
 
       <div class="client-info">
         <div class="client-field"><i class="fas fa-file-alt label"></i> {{ repair?.description }}</div>
-        <div class="client-field"><i class="fas fa-euro-sign label"></i> {{ repair?.total_cost | currency }}</div>
+        <div class="client-field"><i class="fas fa-euro-sign label"></i> {{ repair?.total_cost }} €</div>
+        <div class="client-field"><i class="fas fa-percentage label"></i> IVA aplicado: {{ ivaPercent }}%</div>
+        <div class="client-field" *ngIf="repair">
+          <ng-container *ngIf="repair.parts && mechanic">
+            <span style="font-weight:bold">
+              Coste con IVA: {{ getTotalWithIva(repair.total_cost, ivaPercent) }} €
+            </span>
+          </ng-container>
+        </div>
         <div class="client-field"><i class="fas fa-clock label"></i> {{ repair?.hours_spent }} horas</div>
+        <div class="client-field"><i class="fas fa-calendar-alt label"></i> {{ repair?.repair_date }}</div>
       </div>
 
       <ng-container *ngIf="vehicle">
@@ -29,7 +38,7 @@
         <div class="client-info">
           <div class="client-field"><i class="fas fa-user label"></i> {{ mechanic.name }}</div>
           <div class="client-field"><i class="fas fa-envelope label"></i> {{ mechanic.email }}</div>
-          <div class="client-field"><i class="fas fa-euro-sign label"></i> {{ mechanic.hourly_rate | currency }}</div>
+          <div class="client-field"><i class="fas fa-euro-sign label"></i> {{ mechanic.hourly_rate }} €</div>
           <div class="client-field" *ngIf="mechanic.image">
             <img [src]="mechanic.image" alt="Imagen del mecánico" class="detail-image" />
           </div>

@@ -38,6 +38,7 @@ export class CreateClientComponent implements OnInit {
         this.successMessage = 'Cliente creado correctamente';
         this.errorMessage = '';
         this.newClient = { id: 0, name: '', email: '', phone: '', address: '' };
+        this.router.navigate(['/clients']);
       },
       error: () => {
         this.errorMessage = 'Error al crear cliente';

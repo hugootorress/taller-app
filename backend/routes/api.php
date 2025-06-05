@@ -17,8 +17,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/send-email', [EmailController::class, 'send']);
-    Route::get('/inbox', [EmailController::class, 'inbox']);
-
     Route::get('/clients', [ApiControllerClient::class, 'index']);
     Route::get('/clients/{id}', [ApiControllerClient::class, 'show']);
     Route::post('/clients', [ApiControllerClient::class, 'store']);
@@ -47,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/repairs/{id}', [ApiControllerRepair::class, 'update']);
     Route::delete('/repairs/{id}', [ApiControllerRepair::class, 'destroy']);
     Route::get('/repairs/vehicle/{vehicleId}', [ApiControllerRepair::class, 'getRepairsByVehicle']);
+    Route::get('/repairs/mechanic/{mechanicId}', [ApiControllerRepair::class, 'getRepairsByMechanic']);
 
     Route::get('/mechanics', [MechanicController::class, 'index']);
     Route::get('/mechanics/{id}', [MechanicController::class, 'show']);

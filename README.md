@@ -99,6 +99,29 @@ taller_app/
    - Backend: `cd backend && composer install && npm install && cp .env.example .env && php artisan key:generate`
    - Frontend: `cd frontend && npm install && ng serve`
 
+## Despliegue del proyecto
+
+1. **Copia el archivo `.env.example` a `.env` en la carpeta `backend/` antes de levantar los contenedores:**
+
+   En PowerShell:
+   ```powershell
+   cd backend
+   copy .env.example .env
+   cd ..
+   ```
+
+2. **(Opcional) Ajusta las variables del archivo `.env` si necesitas personalizar algo (por defecto funciona para desarrollo local con Docker).**
+
+3. **Levanta los servicios desde la raíz del proyecto:**
+   ```powershell
+   docker-compose down -v
+   docker-compose up --build -d
+   ```
+
+Esto es obligatorio para que Laravel funcione correctamente (clave de aplicación, conexión a base de datos, etc). Si no existe `.env`, el backend no arrancará.
+
+---
+
 ## Notas técnicas
 - El backend ejecuta automáticamente las migraciones y seeders al iniciar el contenedor (ver `CMD` en el Dockerfile).
 - Si cambias las migraciones, puedes reiniciar el backend con:

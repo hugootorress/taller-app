@@ -44,15 +44,15 @@ export class EditClientComponent implements OnInit {
   }
 
   updateClient(): void {
-    this.clientService.updateClient(this.client).subscribe(
-      () => {
+    this.clientService.updateClient(this.client).subscribe({
+      next: () => {
         this.successMessage = 'Cliente actualizado con éxito.';
         this.router.navigate(['/clients']);
       },
-      () => {
+      error: () => {
         this.errorMessage = 'Error al actualizar el cliente.';
       }
-    );
+    });
   }
 
   goBack(): void {

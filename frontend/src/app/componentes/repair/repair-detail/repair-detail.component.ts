@@ -4,6 +4,7 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RepairService } from '../../../servicios/repair/repair.service';
 import { VehicleService } from '../../../servicios/vehicle/vehicle.service';
 import { MechanicService } from '../../../servicios/mechanic/mechanic.service';
+import { IvaService } from '../../../servicios/iva.service';
 import { Repair } from '../../../modelos/repair.model';
 import { Vehicle } from '../../../modelos/vehicle.model';
 import { Mechanic } from '../../../modelos/mechanic.model';
@@ -22,14 +23,18 @@ export class RepairDetailComponent implements OnInit {
   repair: Repair | null = null;
   vehicle: Vehicle | null = null;
   mechanic: Mechanic | null = null;
+  ivaPercent: number;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private repairService: RepairService,
     private vehicleService: VehicleService,
-    private mechanicService: MechanicService
-  ) {}
+    private mechanicService: MechanicService,
+    private ivaService: IvaService
+  ) {
+    this.ivaPercent = this.ivaService.getIva();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -153,10 +158,13 @@ export class RepairDetailComponent implements OnInit {
       const partsTotal = this.repair.parts.reduce((acc: number, part: any) => acc + parseFloat(part.sale_price), 0);
       const laborCost = this.repair.hours_spent * this.mechanic.hourly_rate;
       const totalCost = partsTotal + laborCost;
-  
+      const iva = (totalCost * this.ivaPercent) / 100;
+      const totalConIva = totalCost + iva;
       doc.text(`Total Piezas: ${partsTotal.toFixed(2)} €`, 20, totalCalculationY + 8);
       doc.text(`Mano de obra (${this.repair.hours_spent} horas x ${this.mechanic.hourly_rate} €): ${laborCost.toFixed(2)} €`, 20, totalCalculationY + 16);
       doc.text(`Coste Total: ${totalCost.toFixed(2)} €`, 20, totalCalculationY + 24);
+      doc.text(`+ IVA (${this.ivaPercent}%): ${iva.toFixed(2)} €`, 20, totalCalculationY + 32);
+      doc.text(`Total con IVA: ${totalConIva.toFixed(2)} €`, 20, totalCalculationY + 40);
   
       // Pie de página
       const finalY = totalCalculationY + 40;
@@ -170,6 +178,13 @@ export class RepairDetailComponent implements OnInit {
 
   goBack(): void {
     window.history.back();
+  }
+
+  getTotalWithIva(total: any, iva: number): string {
+    const num = Number(total);
+    if (isNaN(num)) return '-';
+    const totalConIva = num + (num * iva / 100);
+    return totalConIva.toFixed(2);
   }
 }
 

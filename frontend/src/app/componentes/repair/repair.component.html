@@ -42,7 +42,7 @@
           <span>
             {{ repair.description }} — 
             {{ repair.repair_date }} — 
-            {{ repair.total_cost | currency }} — 
+            {{ repair.total_cost }} € — 
             {{ getVehicleById(repair.vehicle_id)?.model }}
           </span>
           <div class="actions">

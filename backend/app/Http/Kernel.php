@@ -14,6 +14,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        \Fruitcake\Cors\HandleCors::class,
     \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
     \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
     \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -39,6 +40,7 @@ class Kernel extends HttpKernel
     ],
 
          'api' => [
+        \Fruitcake\Cors\HandleCors::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
     ],
 

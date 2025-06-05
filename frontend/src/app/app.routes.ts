@@ -4,7 +4,6 @@ import { LoginComponent } from './componentes/auth/login.component';
 import { AuthGuard } from './guards/auth.guard';
 
 import { DashboardProComponent } from './componentes/dashboard-pro/dashboard-pro.component';
-import { InboxComponent } from './componentes/inbox/inbox.component';
 
 import { ClientComponent } from './componentes/client/client.component';
 import { ClientDetailComponent } from './componentes/client/client-detail/client-detail.component';
@@ -45,7 +44,7 @@ export const routes: Routes = [
   { path: 'client/:id', component: ClientDetailComponent },
   { path: 'create-client', component: CreateClientComponent },
   { path: 'edit-client/:id', component: EditClientComponent },
-  { path: 'email/:email', component: EmailComposeComponent },
+  { path: 'email-taller', component: EmailComposeComponent },
 
   //vehiculos
   { path: 'vehicles', component: VehicleComponent },
@@ -70,7 +69,6 @@ export const routes: Routes = [
   { path: 'mechanic/:id', component: MechanicDetailComponent },
   { path: 'edit-mechanic/:id', component: EditMechanicComponent },
   { path: 'create-mechanic', component: CreateMechanicComponent },
-  { path: 'inbox', component: InboxComponent },
 
 ];
 

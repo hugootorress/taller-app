@@ -35,4 +35,8 @@ export class MechanicService {
   deleteMechanic(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`, this.getAuthHeaders());
   }
+
+  getRepairsByMechanic(mechanicId: number) {
+    return this.http.get<any[]>(`http://localhost:8000/api/repairs/mechanic/${mechanicId}`, this.getAuthHeaders());
+  }
 }

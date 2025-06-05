@@ -11,7 +11,7 @@ import { SidebarComponent} from '../sidebar/sidebar.component';
 @Component({
   selector: 'app-vehicle',
   standalone: true,
-  imports: [CommonModule, FormsModule,SidebarComponent],
+  imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './vehicle.component.html',
   styleUrls: ['./vehicle.component.css']
 })
@@ -88,13 +88,31 @@ export class VehicleComponent implements OnInit {
       if (response.repairs.length > 0) {
         const confirmDelete = confirm(response.message); 
         if (confirmDelete) {
-          this.vehicleService.deleteVehicleAndRepairs(vehicleId).subscribe(() => {
-            this.loadVehicles();
+          this.vehicleService.deleteVehicleAndRepairs(vehicleId).subscribe({
+            next: () => {
+              this.loadVehicles();
+              console.log('Vehículo y reparaciones eliminados correctamente');
+              this.successMessage = '';
+              this.errorMessage = '';
+            },
+            error: () => {
+              this.errorMessage = 'Error al eliminar vehículo';
+              this.successMessage = '';
+            }
           });
         }
       } else {
-        this.vehicleService.deleteVehicleAndRepairs(vehicleId).subscribe(() => {
-          this.loadVehicles();
+        this.vehicleService.deleteVehicleAndRepairs(vehicleId).subscribe({
+          next: () => {
+            this.loadVehicles();
+            console.log('Vehículo eliminado correctamente');
+            this.successMessage = '';
+            this.errorMessage = '';
+          },
+          error: () => {
+            this.errorMessage = 'Error al eliminar vehículo';
+            this.successMessage = '';
+          }
         });
       }
     });

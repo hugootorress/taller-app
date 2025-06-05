@@ -9,7 +9,7 @@
   </div>
 
   <div class="mechanic-info">
-    <img [src]="mechanicImage" alt="Imagen Mecánico" class="mechanic-img" />
+    <img [src]="mechanicImage" alt="Imagen Mecánico" class="mechanic-img" (error)="mechanicImage = 'assets/img/default-avatar.png'" />
     <span class="mechanic-name">{{ mechanicName }}</span>
     <span class="role-indicator-icon">
       <i class="fas" [ngClass]="isAdmin ? 'fa-crown admin-icon' : 'fa-wrench mechanic-icon'"></i>
@@ -23,7 +23,7 @@
 
   <ul class="nav-list">
     <li *ngIf="isAdmin" routerLinkActive="active">
-      <a routerLink="/dashboardpro"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a routerLink="/dashboardpro"><i class="fas fa-tachometer-alt"></i> Panel</a>
     </li>
     <li *ngIf="isAdmin" routerLinkActive="active">
       <a routerLink="/mechanics"><i class="fas fa-user-cog"></i> Mecánicos</a>
@@ -41,10 +41,10 @@
       <a routerLink="/parts"><i class="fas fa-cogs"></i> Piezas</a>
     </li>
     <li routerLinkActive="active">
-      <a routerLink="/inbox"><i class="fas fa-inbox"></i> Bandeja de Entrada</a>
+      <a routerLink="/email-taller"><i class="fas fa-envelope"></i>Email al taller</a>
     </li>
     <li>
-      <a href="https://tudocumentacion.com" target="_blank" rel="noopener">
+      <a href="http://localhost:8081" target="_blank" rel="noopener">
         <i class="fas fa-question-circle"></i> Ayuda
       </a>
     </li>

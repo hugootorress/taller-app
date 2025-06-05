@@ -108,21 +108,18 @@
           </div>
 
           <div class="form-group">
-            <label for="total_cost"><i class="fas fa-euro-sign label"></i> Costo Total:</label>
+            <label for="repair_date"><i class="fas fa-calendar-alt label"></i> Fecha de reparación:</label>
             <input
-              type="number"
-              id="total_cost"
-              name="total_cost"
-              [(ngModel)]="repair.total_cost"
+              type="date"
+              id="repair_date"
+              name="repair_date"
+              [(ngModel)]="repair.repair_date"
               required
-              min="0"
               class="form-control"
-              placeholder="Costo Total"
-              #total_cost="ngModel"
+              #repair_date="ngModel"
             />
-            <div class="field-error" *ngIf="total_cost.invalid && (total_cost.dirty || total_cost.touched)">
-              <span *ngIf="total_cost.errors?.['required']">El costo es obligatorio.</span>
-              <span *ngIf="total_cost.errors?.['min']">No puede ser negativo.</span>
+            <div class="field-error" *ngIf="repair_date.invalid && (repair_date.dirty || repair_date.touched)">
+              <span *ngIf="repair_date.errors?.['required']">La fecha es obligatoria.</span>
             </div>
           </div>
 

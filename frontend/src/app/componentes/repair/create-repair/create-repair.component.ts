@@ -73,9 +73,14 @@ export class CreateRepairComponent implements OnInit {
     if (!this.repair.hours_spent) {
       this.repair.hours_spent = 0; 
     }
-    this.repairService.createRepair(this.repair).subscribe((newRepair) => {
-      console.log('Reparación creada', newRepair);
-      this.router.navigate(['/repairs']);
+    this.repairService.createRepair(this.repair).subscribe({
+      next: (newRepair) => {
+        console.log('Reparación creada', newRepair);
+        this.router.navigate(['/repairs']);
+      },
+      error: () => {
+        alert('Error al crear la reparación');
+      }
     });
   }
 

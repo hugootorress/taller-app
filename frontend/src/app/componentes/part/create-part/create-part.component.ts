@@ -19,8 +19,14 @@ export class CreatePartComponent {
   constructor(private partService: PartService, private router: Router) {}
 
   addPart() {
-    this.partService.addPart(this.part).subscribe(() => {
-      this.router.navigate(['/parts']);
+    this.partService.addPart(this.part).subscribe({
+      next: () => {
+        this.router.navigate(['/parts']);
+      },
+      error: () => {
+        // Aquí podrías mostrar un mensaje de error
+        alert('Error al crear la pieza');
+      }
     });
   }
   goBack() {

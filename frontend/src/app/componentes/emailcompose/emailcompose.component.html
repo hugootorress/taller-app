@@ -1,26 +1,37 @@
-<div class="dashboard">
-  <!-- Sidebar -->
+<div class="app-container">
   <app-sidebar></app-sidebar>
-
-  <!-- Contenido principal -->
   <main class="main-content">
-    <div class="email-container">
-      <h2>Enviar correo a {{ toEmail }}</h2>
-      <form (ngSubmit)="send()">
-        <label for="subject">Asunto</label>
-        <input id="subject" [(ngModel)]="subject" name="subject" required />
-
-        <label for="body">Mensaje</label>
-        <textarea id="body" [(ngModel)]="body" name="body" rows="8" required></textarea>
-
+    <div class="email-container card shadow">
+      <h2 class="email-title"><i class="fas fa-envelope"></i> Enviar correo al taller</h2>
+      <form (ngSubmit)="send()" class="email-form" autocomplete="off" aria-labelledby="email-title">
+        <fieldset class="info-fixed" aria-readonly="true">
+          <legend class="sr-only">Información fija</legend>
+          <div class="info-row">
+            <label for="to" class="info-label"><b>Para:</b></label>
+            <span id="to" class="info-value">hugales2005&#64;gmail.com</span>
+          </div>
+          <div class="info-row">
+            <label for="from" class="info-label"><b>Remitente:</b></label>
+            <span id="from" class="info-value">{{ fromName }}</span>
+          </div>
+        </fieldset>
+        <div class="form-group">
+          <label for="subject">Asunto</label>
+          <input id="subject" [(ngModel)]="subject" name="subject" required class="form-control" placeholder="Escribe el asunto" maxlength="120" />
+        </div>
+        <div class="form-group">
+          <label for="body">Mensaje</label>
+          <textarea id="body" [(ngModel)]="body" name="body" rows="8" required class="form-control" placeholder="Escribe tu mensaje aquí..."></textarea>
+        </div>
         <div class="button-group">
-          <button type="submit"><i class="fas fa-paper-plane"></i> Enviar</button>
-          <button type="button" class="cancel" (click)="cancel()">Cancelar</button>
+          <button type="submit" class="btn-send" [disabled]="!subject || !body"><i class="fas fa-paper-plane"></i> Enviar</button>
+          <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+        </div>
+        <div class="form-messages">
+          <p class="success" *ngIf="success" role="status">Correo enviado correctamente.</p>
+          <p class="error" *ngIf="error" role="alert">{{ error }}</p>
         </div>
       </form>
-
-      <p class="success" *ngIf="success">Correo enviado correctamente.</p>
-      <p class="error" *ngIf="error">{{ error }}</p>
     </div>
   </main>
 </div>

@@ -51,11 +51,13 @@ export class CreateVehicleComponent implements OnInit {
       next: () => {
         this.successMessage = 'Vehículo creado correctamente';
         this.errorMessage = '';
+        // Navega automáticamente al listado de vehículos
         this.router.navigate(['/vehicles']);
       },
       error: () => {
         this.errorMessage = 'Error al crear vehículo';
         this.successMessage = '';
+        // Permanece en el formulario si hay error
       }
     });
   }

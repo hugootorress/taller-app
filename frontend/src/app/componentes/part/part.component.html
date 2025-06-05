@@ -17,7 +17,7 @@
           <li *ngFor="let part of filteredParts" class="vehicle-item" [ngClass]="getStockClass(part.stock)">
             <span>
               {{ part.name }} — 
-              {{ part.price | currency }} — 
+              {{ part.price }} € — 
               Stock: {{ part.stock }}
             </span>
             <div class="actions">

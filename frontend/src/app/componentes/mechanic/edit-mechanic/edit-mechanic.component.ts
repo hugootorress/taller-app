@@ -44,20 +44,25 @@ export class EditMechanicComponent implements OnInit {
   }
 
   updateMechanic(): void {
-    this.mechanicService.updateMechanic(this.mechanic.id, this.mechanic).subscribe(
-      () => {
+    this.mechanicService.updateMechanic(this.mechanic.id, this.mechanic).subscribe({
+      next: () => {
         this.successMessage = 'Mecánico actualizado con éxito.';
         this.router.navigate(['/mechanics']);
       },
-      () => {
+      error: () => {
         this.errorMessage = 'Error al actualizar el mecánico.';
       }
-    );
+    });
   }
 
   handleImageUpload(event: any) {
     const file = event.target.files[0];
     if (file) {
+      const maxSizeMB = 2;
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        this.errorMessage = 'Imagen subida que pesa mucho (máx. 2MB)';
+        return;
+      }
       const reader = new FileReader();
       reader.onload = () => this.mechanic.image = reader.result as string;
       reader.readAsDataURL(file);

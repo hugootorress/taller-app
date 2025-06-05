@@ -6,10 +6,11 @@ import { Client } from '../../modelos/client.model';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { SidebarComponent} from '../sidebar/sidebar.component';
+
 @Component({
   selector: 'app-client',
   standalone: true,
-  imports: [CommonModule, FormsModule,SidebarComponent],
+  imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.css']
 })
@@ -114,7 +115,8 @@ export class ClientComponent implements OnInit {
     this.clientService.deleteClient(clientId).subscribe({
       next: () => {
         this.loadClients();
-        this.successMessage = 'Cliente eliminado correctamente';
+        console.log('Cliente eliminado correctamente');
+        this.successMessage = '';
         this.errorMessage = '';
       },
       error: () => {
@@ -128,7 +130,8 @@ export class ClientComponent implements OnInit {
     this.clientService.deleteClient(clientId).subscribe({
       next: () => {
         this.loadClients();
-        this.successMessage = 'Cliente, vehículos y reparaciones eliminados correctamente';
+        console.log('Cliente, vehículos y reparaciones eliminados correctamente');
+        this.successMessage = '';
         this.errorMessage = '';
       },
       error: () => {
@@ -138,10 +141,6 @@ export class ClientComponent implements OnInit {
     });
   }
   
-
-  composeEmail(email: string) {
-    this.router.navigate([`/email/${encodeURIComponent(email)}`]);
-  }
 
   goBack(): void {
     this.router.navigate(['/dashboard']);

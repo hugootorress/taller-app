@@ -7,10 +7,11 @@ import { Repair } from '../../modelos/repair.model';
 import { Vehicle } from '../../modelos/vehicle.model';
 import { Router } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+
 @Component({
   selector: 'app-repair',
   standalone: true,
-  imports: [CommonModule, FormsModule,SidebarComponent],
+  imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './repair.component.html',
   styleUrls: ['./repair.component.css']
 })
@@ -111,7 +112,8 @@ export class RepairComponent implements OnInit {
     this.repairService.deleteRepair(id).subscribe({
       next: () => {
         this.loadRepairs();
-        this.successMessage = 'Reparación eliminada correctamente';
+        console.log('Reparación eliminada correctamente');
+        this.successMessage = '';
         this.errorMessage = '';
       },
       error: () => {

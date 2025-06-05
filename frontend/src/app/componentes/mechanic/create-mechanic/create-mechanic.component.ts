@@ -43,10 +43,16 @@ export class CreateMechanicComponent {
       role: this.role
     };
 
-    this.authService.register(user).subscribe(response => {
-      console.log('Usuario registrado:', response);
-      this.successMessage = 'Mecánico creado correctamente';
-      this.clearForm();
+    this.authService.register(user).subscribe({
+      next: response => {
+        console.log('Usuario registrado:', response);
+        this.successMessage = 'Mecánico creado correctamente';
+        this.clearForm();
+        this.router.navigate(['/mechanics']);
+      },
+      error: err => {
+        this.errorMessage = 'Error al crear el mecánico';
+      }
     });
   }
 

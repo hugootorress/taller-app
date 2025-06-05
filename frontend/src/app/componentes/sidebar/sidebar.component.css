@@ -175,3 +175,25 @@
     display: none;
   }
 }
+
+.lang-switcher {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0.5rem 0 0.5rem 1rem;
+}
+.lang-switcher button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.2rem 0.7rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+}
+.lang-switcher button.active, .lang-switcher button:hover {
+  background: #16202b;
+}
