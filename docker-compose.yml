@@ -12,7 +12,6 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./backend/database/init-wordpress.sql:/docker-entrypoint-initdb.d/init-wordpress.sql
     networks:
       - taller_net
 
@@ -66,31 +65,6 @@ services:
       - backend
     volumes:
       - ./frontend:/app
-    networks:
-      - taller_net
-
-  wordpress:
-    build: ./wordpress
-    container_name: wordpress
-    restart: always
-    environment:
-      WORDPRESS_DB_HOST: mariadb:3306
-      WORDPRESS_DB_USER: wpuser
-      WORDPRESS_DB_PASSWORD: wppass
-      WORDPRESS_DB_NAME: wpdb
-      WORDPRESS_CONFIG_EXTRA: |
-        define('WP_HOME', 'http://localhost:8081');
-        define('WP_SITEURL', 'http://localhost:8081');
-        define('WP_DEBUG', false);
-        define('FS_METHOD', 'direct');
-    ports:
-      - "8081:80"
-    volumes:
-      - ./wordpress/html:/var/www/html
-      - ./wordpress/import:/import
-      - ./wordpress/init:/docker-entrypoint-initwp.d
-    depends_on:
-      - mariadb
     networks:
       - taller_net
 
