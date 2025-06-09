@@ -8,12 +8,12 @@
 }
 
 .login-box {
-  background-color: rgba(255, 255, 255, 0.9); 
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
   padding: 40px 30px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid #e0e0e0;
 }
 
@@ -44,30 +44,44 @@ form {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #455a64; 
+  color: #455a64;
 }
 
-input[type="email"],
-input[type="password"] {
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-container input[type="email"],
+.input-container input[type="password"] {
   width: 100%;
-  padding: 12px;
+  padding: 12px 40px 12px 12px;
   font-size: 16px;
-  border: 1px solid #1f2a38; 
+  border: 1px solid #1f2a38;
   border-radius: 8px;
   background-color: #f9f9f9;
   color: #333;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-input:focus {
-  border-color: #0741ad; 
+.input-container input:focus {
+  border-color: #0741ad;
   box-shadow: 0 0 0 2px rgba(7, 65, 173, 0.2);
   outline: none;
 }
 
+.input-icon {
+  position: absolute;
+  right: 12px;
+  color: #0741ad;
+  font-size: 18px;
+  pointer-events: none;
+}
+
 button {
   padding: 12px;
-  background-color: #0741ad; 
+  background-color: #0741ad;
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -78,7 +92,7 @@ button {
 }
 
 button:hover {
-  background-color: #052f8c; 
+  background-color: #052f8c;
 }
 
 .error-message {

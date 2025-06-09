@@ -1,9 +1,7 @@
 <div class="login-wrapper">
   <div class="login-box">
     <div class="logo-container">
-      <a href="http://localhost:9090" target="_blank" title="Ir a WordPress">
-        <img src="assets/img/logo_app.png" alt="Logo" class="logo" />
-      </a>
+      <img src="assets/img/logo_app.png" alt="Logo" class="logo" />
     </div>
 
     <h2 class="login-title">Iniciar sesión</h2>
@@ -11,26 +9,32 @@
     <form (ngSubmit)="login()">
       <div class="form-group">
         <label for="email">Correo electrónico</label>
-        <input
-          id="email"
-          type="email"
-          [(ngModel)]="email"
-          name="email"
-          required
-          [disabled]="loading"
-        />
+        <div class="input-container">
+          <input
+            id="email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            [disabled]="loading"
+          />
+          <i class="fas fa-envelope input-icon"></i>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="password">Contraseña</label>
-        <input
-          id="password"
-          type="password"
-          [(ngModel)]="password"
-          name="password"
-          required
-          [disabled]="loading"
-        />
+        <div class="input-container">
+          <input
+            id="password"
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            [disabled]="loading"
+          />
+          <i class="fas fa-lock input-icon"></i>
+        </div>
       </div>
 
       <div *ngIf="errorMessage" class="error-message">

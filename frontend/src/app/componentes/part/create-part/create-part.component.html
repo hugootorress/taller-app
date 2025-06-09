@@ -6,54 +6,27 @@
       <form (ngSubmit)="addPart()" #partForm="ngForm">
         <div class="form-group">
           <label for="name"><i class="fas fa-tag label"></i> Nombre:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            [(ngModel)]="part.name"
-            required
-            class="form-control"
-          />
+          <input type="text" id="name" name="name" [(ngModel)]="part.name" required class="form-control" />
         </div>
 
         <div class="form-group">
           <label for="price"><i class="fas fa-dollar-sign label"></i> Precio:</label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            [(ngModel)]="part.price"
-            required
-            class="form-control"
-          />
+          <input type="number" id="price" name="price" [(ngModel)]="part.price" required class="form-control" />
         </div>
 
         <div class="form-group">
           <label for="stock"><i class="fas fa-boxes label"></i> Stock:</label>
-          <input
-            type="number"
-            id="stock"
-            name="stock"
-            [(ngModel)]="part.stock"
-            required
-            class="form-control"
-          />
+          <input type="number" id="stock" name="stock" [(ngModel)]="part.stock" required class="form-control" />
         </div>
 
         <div class="form-group">
-          <label for="profit_margin"
-            ><i class="fas fa-percentage label"></i> Margen de beneficio (%):</label
-          >
-          <input
-            type="number"
-            id="profit_margin"
-            name="profit_margin"
-            min="0"
-            max="100"
-            [(ngModel)]="part.profit_margin"
-            required
-            class="form-control"
-          />
+          <label><i class="fas fa-percentage label"></i> ¿Usar margen de beneficio?</label>
+          <input type="checkbox" [(ngModel)]="showProfitMargin" name="toggleProfit" />
+        </div>
+        <div class="form-group" *ngIf="showProfitMargin">
+          <label for="profit_margin"><i class="fas fa-percentage label"></i> Margen de beneficio (%):</label>
+          <input type="number" id="profit_margin" name="profit_margin" min="0" max="100"
+            [(ngModel)]="part.profit_margin" required class="form-control" />
         </div>
 
         <div class="part-actions">

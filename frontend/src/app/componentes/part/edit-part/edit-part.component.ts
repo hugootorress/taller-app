@@ -18,12 +18,13 @@ export class EditPartComponent implements OnInit {
   part: Part = { id: '', name: '', price: 0, stock: 0, profit_margin: 0 };
   successMessage: string = '';
   errorMessage: string = '';
+  showProfitMargin = false;
 
   constructor(
     private route: ActivatedRoute,
     private partService: PartService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.partId = this.route.snapshot.paramMap.get('id');
@@ -36,6 +37,7 @@ export class EditPartComponent implements OnInit {
     this.partService.getPart(Number(id)).subscribe(
       (data) => {
         this.part = data;
+        this.showProfitMargin = !!(this.part.profit_margin && this.part.profit_margin > 0);
       },
       () => {
         this.errorMessage = 'No se pudo cargar la pieza.';
@@ -44,6 +46,9 @@ export class EditPartComponent implements OnInit {
   }
 
   updatePart(): void {
+    if (!this.showProfitMargin) {
+      this.part.profit_margin = 0;
+    }
     this.partService.updatePart(Number(this.part.id), this.part).subscribe({
       next: () => {
         this.successMessage = 'Pieza actualizada con éxito.';

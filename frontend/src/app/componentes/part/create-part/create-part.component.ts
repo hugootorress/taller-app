@@ -14,17 +14,20 @@ import { SidebarComponent } from '../../sidebar/sidebar.component';
   styleUrls: ['./create-part.component.css']
 })
 export class CreatePartComponent {
-  part: Part = { id: '', name: '', price: 0, stock: 0, profit_margin: 0 }; 
+  part: Part = { id: '', name: '', price: 0, stock: 0, profit_margin: 0 };
+  showProfitMargin = false;
 
-  constructor(private partService: PartService, private router: Router) {}
+  constructor(private partService: PartService, private router: Router) { }
 
   addPart() {
+    if (!this.showProfitMargin) {
+      this.part.profit_margin = 0;
+    }
     this.partService.addPart(this.part).subscribe({
       next: () => {
         this.router.navigate(['/parts']);
       },
       error: () => {
-        // Aquí podrías mostrar un mensaje de error
         alert('Error al crear la pieza');
       }
     });

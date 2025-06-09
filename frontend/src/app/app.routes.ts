@@ -31,6 +31,8 @@ import { CreateMechanicComponent } from './componentes/mechanic/create-mechanic/
 import { MechanicDetailComponent } from './componentes/mechanic/mechanic-detail/mechanic-detail.component';
 import { EditMechanicComponent } from './componentes/mechanic/edit-mechanic/edit-mechanic.component';
 
+import { AyudaComponent } from './componentes/ayuda/ayuda.component';
+
 export const routes: Routes = [
   // Públicas
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -69,6 +71,8 @@ export const routes: Routes = [
   { path: 'mechanic/:id', component: MechanicDetailComponent },
   { path: 'edit-mechanic/:id', component: EditMechanicComponent },
   { path: 'create-mechanic', component: CreateMechanicComponent },
+
+  { path: 'ayuda', component: AyudaComponent },
 
 ];
 
