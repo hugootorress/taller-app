@@ -49,8 +49,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./backend/storage:/var/www/html/storage
-      - ./backend/.env:/var/www/html/.env
+            - ./backend:/var/www/html
     command: ["sh", "/var/www/html/entrypoint.sh"]
     networks:
       - taller_net
@@ -60,7 +59,7 @@ services:
     container_name: frontend
     restart: always
     ports:
-      - "4200:80"
+      - "80:80"
     depends_on:
       - backend
     volumes:

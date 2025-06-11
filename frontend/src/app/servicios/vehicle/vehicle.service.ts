@@ -7,7 +7,7 @@ import { Vehicle } from '../../modelos/vehicle.model';
   providedIn: 'root'
 })
 export class VehicleService {
-  private baseUrl = 'http://localhost:8000/api/vehicles';
+  private baseUrl = 'http://tallermatehtorres.zapto.org:8000/api/vehicles';
 
   constructor(private http: HttpClient) {}
 

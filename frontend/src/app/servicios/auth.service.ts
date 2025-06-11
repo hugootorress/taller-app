@@ -8,8 +8,7 @@ import { of } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api';
-  isLoggedIn = signal(!!localStorage.getItem('token')); 
+private apiUrl = 'http://tallermatehtorres.zapto.org:8000/api';  isLoggedIn = signal(!!localStorage.getItem('token')); 
 
   constructor(private http: HttpClient, private router: Router) {}
 

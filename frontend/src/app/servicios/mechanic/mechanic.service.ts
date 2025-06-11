@@ -7,7 +7,7 @@ import { Mechanic } from '../../modelos/mechanic.model';
   providedIn: 'root',
 })
 export class MechanicService {
-  private apiUrl = 'http://localhost:8000/api/mechanics';
+  private apiUrl = 'http://tallermatehtorres.zapto.org:8000/api/mechanics';
 
   constructor(private http: HttpClient) {}
 

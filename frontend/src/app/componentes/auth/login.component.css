@@ -109,3 +109,46 @@ button:hover {
   font-style: italic;
   font-size: 14px;
 }
+
+@media (max-width: 600px) {
+  .login-wrapper {
+    align-items: flex-start;
+    padding: 20px 0;
+    min-height: 100vh;
+  }
+  .login-box {
+    padding: 24px 10px;
+    max-width: 98vw;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .logo {
+    width: 80px;
+  }
+  .login-title {
+    font-size: 20px;
+  }
+  .form-group label {
+    font-size: 15px;
+  }
+  .input-container input[type="email"],
+  .input-container input[type="password"] {
+    font-size: 15px;
+    padding: 10px 36px 10px 10px;
+  }
+  button {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .login-box {
+    padding: 12px 2vw;
+  }
+  .logo {
+    width: 60px;
+  }
+  .login-title {
+    font-size: 17px;
+  }
+}

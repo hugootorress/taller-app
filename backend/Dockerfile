@@ -19,7 +19,7 @@ COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
 # Copia configuración personalizada de PHP
-COPY php.ini /usr/local/etc/php/
+# COPY php.ini /usr/local/etc/php/
 
 # Instala dependencias de PHP y Node
 WORKDIR /var/www/html
@@ -27,7 +27,19 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader \
     && npm install && npm run build
 
 # Permisos para Laravel
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html/public \
+    && chown -R www-data:www-data /var/www/html/vendor \
+    && chown -R www-data:www-data /var/www/html/app \
+    && chown -R www-data:www-data /var/www/html/config \
+    && chown -R www-data:www-data /var/www/html/resources \
+    && chmod -R 755 /var/www/html/storage \
+    && chmod -R 755 /var/www/html/bootstrap \
+    && chmod -R 755 /var/www/html/public \
+    && chmod -R 755 /var/www/html/vendor \
+    && chmod -R 755 /var/www/html/app \
+    && chmod -R 755 /var/www/html/config \
+    && chmod -R 755 /var/www/html/resources
 
 EXPOSE 80
 

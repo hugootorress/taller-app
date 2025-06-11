@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ClientService {
 
-  private baseUrl = 'http://localhost:8000/api/clients';
+  private baseUrl = 'http://tallermatehtorres.zapto.org:8000/api/clients';
 
   constructor(private http: HttpClient) {}
 

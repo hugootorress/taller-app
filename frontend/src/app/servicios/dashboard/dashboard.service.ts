@@ -24,7 +24,7 @@ export interface DashboardStats {
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
-  private url = 'http://localhost:8000/api/stats';
+  private url = 'http://tallermatehtorres.zapto.org:8000/api/stats';
 
   constructor(private http: HttpClient) {}
 
