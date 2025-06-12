@@ -37,6 +37,6 @@ export class MechanicService {
   }
 
   getRepairsByMechanic(mechanicId: number) {
-    return this.http.get<any[]>(`http://localhost:8000/api/repairs/mechanic/${mechanicId}`, this.getAuthHeaders());
+    return this.http.get<any[]>(`http://tallermatehtorres.zapto.org:8000/api/repairs/mechanic/${mechanicId}`, this.getAuthHeaders());
   }
 }

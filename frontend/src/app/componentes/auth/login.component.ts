@@ -30,10 +30,16 @@ export class LoginComponent {
         this.stopLoadingDots();
         if (response && response.respuesta) {
           console.log('Login exitoso');
-          const isAdmin = this.authService.isAdmin();
-          localStorage.setItem('mechanicIsAdmin', isAdmin ? 'true' : 'false');
-          this.router.navigate(['/admin-dashboard']);  
-          
+          const mechanic = response.mechanic || JSON.parse(localStorage.getItem('mechanic') || '{}');
+          const role = mechanic.role;
+          localStorage.setItem('mechanicIsAdmin', role === 'admin' ? 'true' : 'false');
+          if (role === 'admin') {
+            this.router.navigate(['/admin-dashboard']);
+          } else if (role === 'mechanic' || role === 'mecanico') {
+            this.router.navigate(['/cliente']);
+          } else {
+            this.router.navigate(['/']);
+          }
         } else {
           console.log('Login fallido');
           this.errorMessage = 'Error al intentar iniciar sesión. Verifica tus credenciales.';

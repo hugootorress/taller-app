@@ -42,10 +42,10 @@ export class ClientService {
   }
 
   getVehiclesByClientId(clientId: number): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`http://localhost:8000/api/clients/${clientId}/vehicles`, this.getAuthHeaders());
+    return this.http.get<Vehicle[]>(`http://tallermatehtorres.zapto.org/api/clients/${clientId}/vehicles`, this.getAuthHeaders());
   }
 
   getRepairsByVehicleId(vehicleId: number): Observable<Repair[]> {
-    return this.http.get<Repair[]>(`http://localhost:8000/api/vehicles/${vehicleId}/repairs`, this.getAuthHeaders());
+    return this.http.get<Repair[]>(`http://tallermatehtorres.zapto.org/api/vehicles/${vehicleId}/repairs`, this.getAuthHeaders());
   }  
 }
