@@ -41,7 +41,9 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
     && chmod -R 755 /var/www/html/app \
     && chmod -R 755 /var/www/html/config \
     && chmod -R 755 /var/www/html/resources \
-    && chmod -R 755 /var/www/html/routes
+    && chmod -R 755 /var/www/html/routes \
+    && chmod 755 /var/www \
+    && chmod 755 /var/www/html
 
 EXPOSE 80
 

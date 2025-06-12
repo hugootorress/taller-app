@@ -7,7 +7,7 @@ import { Mechanic } from '../../modelos/mechanic.model';
   providedIn: 'root',
 })
 export class MechanicService {
-  private apiUrl = 'http://tallermatehtorres.zapto.org:8000/api/mechanics';
+  private apiUrl = '/api/mechanics';
 
   constructor(private http: HttpClient) {}
 
@@ -37,6 +37,6 @@ export class MechanicService {
   }
 
   getRepairsByMechanic(mechanicId: number) {
-    return this.http.get<any[]>(`http://tallermatehtorres.zapto.org:8000/api/repairs/mechanic/${mechanicId}`, this.getAuthHeaders());
+    return this.http.get<any[]>(`/api/repairs/mechanic/${mechanicId}`, this.getAuthHeaders());
   }
 }

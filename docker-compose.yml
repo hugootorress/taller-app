@@ -1,4 +1,38 @@
+version: '3.8'
+
 services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - nginx_certs:/etc/nginx/certs:rw
+      - nginx_vhost:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
+    networks:
+      - taller_net
+
+  acme-companion:
+    image: nginxproxy/acme-companion
+    container_name: acme-companion
+    restart: always
+    depends_on:
+      - nginx-proxy
+    environment:
+      - DEFAULT_EMAIL=hugales2005@gmail.com
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - nginx_certs:/etc/nginx/certs:rw
+      - nginx_vhost:/etc/nginx/vhost.d
+      - nginx_html:/usr/share/nginx/html
+    networks:
+      - taller_net
+
   mariadb:
     image: mariadb:11.3
     container_name: mariadb
@@ -45,11 +79,9 @@ services:
       DB_PASSWORD: tallerpass
       APP_ENV: local
       APP_DEBUG: "true"
-      APP_URL: http://localhost:8000
-    ports:
-      - "8000:80"
+      APP_URL: http://backend:80
     volumes:
-            - ./backend:/var/www/html
+      - ./backend:/var/www/html
     command: ["sh", "/var/www/html/entrypoint.sh"]
     networks:
       - taller_net
@@ -58,10 +90,12 @@ services:
     build: ./frontend
     container_name: frontend
     restart: always
-    ports:
-      - "80:80"
     depends_on:
       - backend
+    environment:
+      VIRTUAL_HOST: tallermatehtorres.zapto.org
+      LETSENCRYPT_HOST: tallermatehtorres.zapto.org
+      LETSENCRYPT_EMAIL: hugales2005@gmail.com
     volumes:
       - ./frontend:/app
     networks:
@@ -69,6 +103,9 @@ services:
 
 volumes:
   db_data:
+  nginx_certs:
+  nginx_vhost:
+  nginx_html:
 
 networks:
   taller_net:

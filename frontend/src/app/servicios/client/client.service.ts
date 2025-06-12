@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class ClientService {
 
-  private baseUrl = 'http://tallermatehtorres.zapto.org:8000/api/clients';
+  private baseUrl = '/api/clients';
 
   constructor(private http: HttpClient) {}
 
@@ -42,10 +42,10 @@ export class ClientService {
   }
 
   getVehiclesByClientId(clientId: number): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`http://tallermatehtorres.zapto.org/api/clients/${clientId}/vehicles`, this.getAuthHeaders());
+    return this.http.get<Vehicle[]>(`${this.baseUrl}/${clientId}/vehicles`, this.getAuthHeaders());
   }
 
   getRepairsByVehicleId(vehicleId: number): Observable<Repair[]> {
-    return this.http.get<Repair[]>(`http://tallermatehtorres.zapto.org/api/vehicles/${vehicleId}/repairs`, this.getAuthHeaders());
+    return this.http.get<Repair[]>(`${this.baseUrl}/${vehicleId}/repairs`, this.getAuthHeaders());
   }  
 }

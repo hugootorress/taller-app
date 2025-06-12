@@ -1,28 +1,38 @@
 # Taller App
 
-Aplicación Fullstack para la gestión de un taller mecánico, desarrollada con **Laravel** (backend/API RESTful) y **Angular** (frontend SPA). Incluye autenticación, gestión de mecánicos, clientes, vehículos, reparaciones y piezas, así como integración con base de datos MariaDB y panel de administración phpMyAdmin.
+Aplicación Fullstack para la gestión de un taller mecánico, desarrollada con **Laravel** (backend/API RESTful) y **Angular** (frontend SPA). El despliegue está totalmente dockerizado y preparado para producción en un servidor Linux (por ejemplo, AWS EC2), usando nginx-proxy y Let's Encrypt para HTTPS. El frontend es el único punto público, y el backend solo es accesible internamente por Docker.
 
 ## Características principales
 
 - **Backend Laravel**
   - API RESTful para todas las entidades: mecánicos, clientes, vehículos, reparaciones, piezas.
-  - Autenticación y autorización con roles (admin/mecánico).
-  - Migraciones y seeders automáticos.
+  - Autenticación y autorización con roles (admin/mecánico) usando Laravel Sanctum (API tokens).
+  - Migraciones y seeders automáticos al iniciar el contenedor.
   - Seeder que crea un usuario administrador por defecto (`admin@example.com` / `password`).
-  - Gestión de relaciones entre entidades (por ejemplo, un mecánico puede tener varias reparaciones).
-  - Uso de Eloquent ORM y controladores estructurados.
+  - Gestión de relaciones entre entidades.
+  - CORS abierto para permitir acceso desde el frontend.
+  - El backend NO es accesible directamente desde Internet, solo desde la red interna de Docker.
 
 - **Frontend Angular**
   - SPA moderna y responsiva.
   - Login y registro de usuarios.
   - Panel de administración para gestionar mecánicos, clientes, vehículos, reparaciones y piezas.
-  - Consumo de la API Laravel.
+  - Todas las llamadas a la API se hacen vía `/api` (proxy nginx), evitando problemas de CORS y mixed content.
   - Manejo de errores y validaciones.
 
 - **Docker & DevOps**
-  - Contenedores para backend, frontend, base de datos y phpMyAdmin.
-  - El backend ejecuta migraciones y seeders automáticamente al iniciar.
-  - Acceso a la base de datos mediante phpMyAdmin.
+  - Contenedores para backend (Laravel+Apache), frontend (Angular+nginx), base de datos (MariaDB), phpMyAdmin, nginx-proxy y acme-companion (Let's Encrypt).
+  - nginx-proxy gestiona el dominio público y el certificado SSL automáticamente.
+  - El backend solo es visible para el frontend y otros servicios internos.
+  - Seguridad reforzada: solo los puertos 80/443 están abiertos en el firewall/SG de AWS.
+
+## Despliegue en producción (resumen de lo realizado)
+
+- Se desplegó en una instancia EC2 de AWS (Ubuntu), abriendo solo los puertos 22 (SSH), 80 y 443.
+- Se configuró `docker-compose.yml` para que solo el frontend sea público, y el backend solo accesible por la red interna de Docker.
+- nginx-proxy y acme-companion gestionan el dominio y el certificado SSL de Let's Encrypt.
+- El frontend expone el dominio público (por ejemplo, `https://tallermatehtorres.zapto.org`), y todas las peticiones `/api` se redirigen internamente al backend.
+- El backend ejecuta migraciones y seeders automáticamente al iniciar el contenedor.
 
 ## Estructura del proyecto
 
@@ -43,105 +53,32 @@ taller_app/
 └── README.md
 ```
 
-## Instalación y despliegue
+## Instalación y despliegue local (desarrollo)
 
-### Requisitos previos
-- Docker y Docker Compose instalados
-- (Opcional) Node.js y Composer si quieres desarrollo local sin Docker
-
-### Pasos para levantar el proyecto
-
-1. **Clona el repositorio**
+1. Clona el repositorio y copia tu `.env` en `backend/`.
+2. Ejecuta:
    ```sh
-   git clone https://github.com/hugootorress/taller-app.git
-   cd taller-app
+   docker-compose up -d --build
    ```
+3. Accede al frontend en `http://localhost` (o el dominio configurado).
 
-2. **Copia los archivos locales sobre el repositorio clonado**
-   - Copia todo el contenido de tu carpeta local actual (`taller_app`) dentro de la carpeta del repositorio clonado (`taller-app`).
-   - Puedes hacerlo manualmente o con un comando como:
-     ```sh
-     xcopy /E /I /Y ..\taller_app\* .
-     ```
-     (Asegúrate de estar en la carpeta del repo clonado antes de ejecutar el comando)
+## Despliegue en servidor (producción)
 
-3. **Haz commit y sube los cambios**
+1. Sube el proyecto a tu servidor (por ejemplo, EC2 Ubuntu).
+2. Configura tu dominio y apunta el DNS a la IP pública del servidor.
+3. Ajusta el archivo `.env` en `backend/` para producción (DB, mail, etc).
+4. Ejecuta:
    ```sh
-   git add .
-   git commit -m "Se rehace la estructura del proyecto mejorando despliegue y documentación"
-   git push origin main
+   docker-compose up -d --build
    ```
-   (Si tu rama principal se llama `master`, reemplaza `main` por `master`)
+5. nginx-proxy y acme-companion gestionarán el certificado SSL automáticamente.
+6. El frontend será accesible por HTTPS y todas las llamadas a `/api` funcionarán de forma segura.
 
-4. **Levanta los contenedores**
-   ```sh
-   docker-compose up -d
-   ```
-   Esto levantará:
-   - Backend Laravel en `http://localhost:8000`
-   - Frontend Angular en `http://localhost:4200`
-   - MariaDB en el puerto `3306`
-   - phpMyAdmin en `http://localhost:8080`
-
-5. **Acceso a la base de datos**
-   - Usuario: `root`
-   - Contraseña: (vacía o la definida en el `docker-compose.yml`)
-   - Base de datos: `taller`
-   - Puedes acceder a través de [phpMyAdmin](http://localhost:8080)
-
-6. **Usuario administrador por defecto**
-   - Email: `admin@example.com`
-   - Contraseña: `password`
-   - Precio/hora: 15€
-   - Rol: admin
-
-7. **(Opcional) Desarrollo local**
-   - Backend: `cd backend && composer install && npm install && cp .env.example .env && php artisan key:generate`
-   - Frontend: `cd frontend && npm install && ng serve`
-
-## Despliegue del proyecto
-
-1. **Copia el archivo `.env.example` a `.env` en la carpeta `backend/` antes de levantar los contenedores:**
-
-   En PowerShell:
-   ```powershell
-   cd backend
-   copy .env.example .env
-   cd ..
-   ```
-
-2. **(Opcional) Ajusta las variables del archivo `.env` si necesitas personalizar algo (por defecto funciona para desarrollo local con Docker).**
-
-3. **Levanta los servicios desde la raíz del proyecto:**
-   ```powershell
-   docker-compose down -v
-   docker-compose up --build -d
-   ```
-
-Esto es obligatorio para que Laravel funcione correctamente (clave de aplicación, conexión a base de datos, etc). Si no existe `.env`, el backend no arrancará.
-
----
-
-## Notas técnicas
-- El backend ejecuta automáticamente las migraciones y seeders al iniciar el contenedor (ver `CMD` en el Dockerfile).
-- Si cambias las migraciones, puedes reiniciar el backend con:
-  ```sh
-  docker-compose restart backend
-  ```
-- Si necesitas resetear la base de datos:
-  ```sh
-  docker-compose exec backend php artisan migrate:fresh --seed --force
-  ```
-
-## Tecnologías usadas
-- **Backend:** Laravel, PHP 8.2, MariaDB
-- **Frontend:** Angular
-- **DevOps:** Docker, Docker Compose
-- **Otros:** phpMyAdmin
-
-## Autoría
-- Proyecto realizado para 2º DAW
-- Autor: Hugo Torres Varela
+## Seguridad
+- Solo el frontend es público.
+- El backend y la base de datos solo son accesibles internamente.
+- Certificados SSL automáticos con Let's Encrypt.
+- Firewall/Security Group solo permite 22, 80 y 443.
 
 ---
 

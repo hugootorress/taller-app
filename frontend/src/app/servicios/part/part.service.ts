@@ -7,7 +7,7 @@ import { Part } from '../../modelos/part.model';
   providedIn: 'root'
 })
 export class PartService {
-private apiUrl = 'http://tallermatehtorres.zapto.org:8000/api/parts';
+private apiUrl = '/api/parts';
 
   constructor(private http: HttpClient) {}
 

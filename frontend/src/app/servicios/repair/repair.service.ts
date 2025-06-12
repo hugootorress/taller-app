@@ -7,7 +7,7 @@ import { Repair } from '../../modelos/repair.model';
   providedIn: 'root'
 })
 export class RepairService {
-  private baseUrl = 'http://tallermatehtorres.zapto.org:8000/api/repairs';
+  private baseUrl = '/api/repairs';
 
   constructor(private http: HttpClient) {}
 
