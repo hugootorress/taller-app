@@ -46,7 +46,7 @@ export class EmailComposeComponent {
       from_email: this.fromEmail,
       from_name: this.fromName,
     };
-    this.http.post('http://tallermatehtorres.zapto.org/api/send-email', payload, this.getAuthHeaders()).subscribe({
+    this.http.post('/api/send-email', payload, this.getAuthHeaders()).subscribe({
       next: () => {
         this.success = true;
         this.error = '';
